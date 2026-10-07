@@ -1,0 +1,22 @@
+[package]
+name = "lomboksecurity"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+description = "Web security primitives: SHA-256, HMAC, CSRF tokens, security headers and CSP, rate limiting, HTML escaping, safe redirects and password policy. Part of the Lombok Ecosystem."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/codinglombok/LombokSecurity"
+homepage = "https://github.com/codinglombok/LombokSecurity"
+readme = "../README.md"
+keywords = ["security", "csrf", "csp", "rate-limit", "hmac"]
+exclude = ["tests/*", ".gitignore"]
+categories = ["cryptography", "no-std", "web-programming"]
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+
+[lib]
+path = "src/lib.rs"

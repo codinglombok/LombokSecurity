@@ -1,0 +1,6731 @@
+{
+ "format": "lomboksecurity-vectors-v1",
+ "specVersion": "0.1.0",
+ "note": "Normative cross-language vectors. Each case calls `fn` with `args` ({\"hex\": ...} denotes bytes); `expect` is {result} or {error: code}.",
+ "groups": [
+  {
+   "name": "golden",
+   "cases": [
+    {
+     "name": "sha256 empty",
+     "fn": "sha256Hex",
+     "args": [
+      ""
+     ],
+     "expect": {
+      "result": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+     }
+    },
+    {
+     "name": "sha256 abc",
+     "fn": "sha256Hex",
+     "args": [
+      "abc"
+     ],
+     "expect": {
+      "result": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+     }
+    },
+    {
+     "name": "sha256 448-bit message",
+     "fn": "sha256Hex",
+     "args": [
+      "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
+     ],
+     "expect": {
+      "result": "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+     }
+    },
+    {
+     "name": "sha256 896-bit message",
+     "fn": "sha256Hex",
+     "args": [
+      "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
+     ],
+     "expect": {
+      "result": "cf5b16a778af8380036ce59e7b0492370b249b11e8f07a51afac45037afee9d1"
+     }
+    },
+    {
+     "name": "sha256 utf-8 input",
+     "fn": "sha256Hex",
+     "args": [
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": "850f7dc43910ff890f8879c0ed26fe697c93a067ad93a7d50f466a7028a9bf4e"
+     }
+    },
+    {
+     "name": "sha256 bytes input",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "00ff"
+      }
+     ],
+     "expect": {
+      "result": "06eb7d6a69ee19e5fbdf749018d3d2abfa04bcbd1365db312eb86dc7169389b8"
+     }
+    },
+    {
+     "name": "sha256 length 55 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "9f4390f8d30c2dd92ec9f095b65e2b9ae9b0a925a5258e241c9f1e910f734318"
+     }
+    },
+    {
+     "name": "sha256 length 56 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "b35439a4ac6f0948b6d6f9e3c6af0f5f590ce20f1bde7090ef7970686ec6738a"
+     }
+    },
+    {
+     "name": "sha256 length 63 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "7d3e74a05d7db15bce4ad9ec0658ea98e3f06eeecf16b4c6fff2da457ddc2f34"
+     }
+    },
+    {
+     "name": "sha256 length 64 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "ffe054fe7ae0cb6dc65c3af9b61d5209f439851db43d0ba5997337df154668eb"
+     }
+    },
+    {
+     "name": "sha256 length 65 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "635361c48bb9eab14198e76ea8ab7f1a41685d6ad62aa9146d301d4f17eb0ae0"
+     }
+    },
+    {
+     "name": "sha256 length 119 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "31eba51c313a5c08226adf18d4a359cfdfd8d2e816b13f4af952f7ea6584dcfb"
+     }
+    },
+    {
+     "name": "sha256 length 120 padding boundary",
+     "fn": "sha256Hex",
+     "args": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": "2f3d335432c70b580af0e8e1b3674a7c020d683aa5f73aaaedfdc55af904c21c"
+     }
+    },
+    {
+     "name": "sha256 bad hex",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "0"
+      }
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "sha256 non-string",
+     "fn": "sha256Hex",
+     "args": [
+      1
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 1",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"
+      },
+      "Hi There"
+     ],
+     "expect": {
+      "result": "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 2",
+     "fn": "hmacSha256Hex",
+     "args": [
+      "Jefe",
+      "what do ya want for nothing?"
+     ],
+     "expect": {
+      "result": "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 3",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+       "hex": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+     ],
+     "expect": {
+      "result": "773ea91e36800e46854db8ebd09181a72959098b3ef8c122d9635514ced565fe"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 4",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "0102030405060708090a0b0c0d0e0f10111213141516171819"
+      },
+      {
+       "hex": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+      }
+     ],
+     "expect": {
+      "result": "82558a389a443c0ea4cc819899f2083a85f0faa3e578f8077a2e3ff46729665b"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 6 long key",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "Test Using Larger Than Block-Size Key - Hash Key First"
+     ],
+     "expect": {
+      "result": "60e431591ee0b67f0d8a26aacbf5b77f8e0bc6213728c5140546040f0ee37f54"
+     }
+    },
+    {
+     "name": "hmac rfc4231 case 7 long key and data",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm."
+     ],
+     "expect": {
+      "result": "9b09ffa71b942fcb27635fbcd5b0e944bfdc63644f0713938a7f51535c3a35e2"
+     }
+    },
+    {
+     "name": "hmac key length 0",
+     "fn": "hmacSha256Hex",
+     "args": [
+      "",
+      "m"
+     ],
+     "expect": {
+      "result": "a64092104c76d9ef65599c33c177609ecd49857456eb28133c4daea25bea960a"
+     }
+    },
+    {
+     "name": "hmac key length 63",
+     "fn": "hmacSha256Hex",
+     "args": [
+      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+      "m"
+     ],
+     "expect": {
+      "result": "e458f5dd7e8afee6b774e5d451ae43f4d268bf11646030143d0b0231dcb02383"
+     }
+    },
+    {
+     "name": "hmac key length 64",
+     "fn": "hmacSha256Hex",
+     "args": [
+      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+      "m"
+     ],
+     "expect": {
+      "result": "3b7a8d453e76edb519238a515105a57508d0f169f480ebeee120a9e7803289fa"
+     }
+    },
+    {
+     "name": "hmac key length 65",
+     "fn": "hmacSha256Hex",
+     "args": [
+      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+      "m"
+     ],
+     "expect": {
+      "result": "c2d7d4c2256ddb097409ec0c67e1d58fa1a007fc6932cac0d892a525d08af7cc"
+     }
+    },
+    {
+     "name": "hmac non-string key",
+     "fn": "hmacSha256Hex",
+     "args": [
+      null,
+      "m"
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "equal strings",
+     "fn": "timingSafeEqual",
+     "args": [
+      "abc",
+      "abc"
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "different strings",
+     "fn": "timingSafeEqual",
+     "args": [
+      "abc",
+      "abd"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "different lengths",
+     "fn": "timingSafeEqual",
+     "args": [
+      "abc",
+      "abcd"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "prefix",
+     "fn": "timingSafeEqual",
+     "args": [
+      "",
+      "a"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "both empty",
+     "fn": "timingSafeEqual",
+     "args": [
+      "",
+      ""
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "utf-8 vs bytes",
+     "fn": "timingSafeEqual",
+     "args": [
+      "\u00e9",
+      {
+       "hex": "c3a9"
+      }
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "repeating pattern not equal",
+     "fn": "timingSafeEqual",
+     "args": [
+      "ab",
+      "abab"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf create",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "result": "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     }
+    },
+    {
+     "name": "csrf create with context",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff",
+      "session-1"
+     ],
+     "expect": {
+      "result": "00112233445566778899aabbccddeeff.58e6d36b41bae1e52634dc07a1c2c2c4ef58bd867f2065e2bd83cbfff919669e"
+     }
+    },
+    {
+     "name": "csrf null context equals none",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff",
+      null
+     ],
+     "expect": {
+      "result": "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     }
+    },
+    {
+     "name": "csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "csrf verify with context",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.58e6d36b41bae1e52634dc07a1c2c2c4ef58bd867f2065e2bd83cbfff919669e",
+      "session-1"
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "csrf wrong context",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.58e6d36b41bae1e52634dc07a1c2c2c4ef58bd867f2065e2bd83cbfff919669e",
+      "session-2"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf missing context",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.58e6d36b41bae1e52634dc07a1c2c2c4ef58bd867f2065e2bd83cbfff919669e"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf wrong secret",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "fedcba9876543210fedcba9876543210",
+      "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf tampered signature",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b9110"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf tampered nonce",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "10112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf uppercase signature rejected",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899AABBCCDDEEFF.E10710DEDB10CFDE081908E8815A6860EF24F00E666A6EBB5FA56F64194B911A"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf no dot",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf two dots",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a.x"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf empty",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf non-string token",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      5
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf short secret on create",
+     "fn": "createCsrfToken",
+     "args": [
+      "short",
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "error": "invalid_secret"
+     }
+    },
+    {
+     "name": "csrf short secret on verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "short",
+      "00112233445566778899aabbccddeeff.e10710dedb10cfde081908e8815a6860ef24f00e666a6ebb5fa56f64194b911a"
+     ],
+     "expect": {
+      "error": "invalid_secret"
+     }
+    },
+    {
+     "name": "csrf secret 15 bytes rejected",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcde",
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "error": "invalid_secret"
+     }
+    },
+    {
+     "name": "csrf uppercase nonce with valid mac rejected",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899AABBCCDDEEFF.ec90a57bbba6722059c43c2febbdaafc1cfb32c046c248f6c5cb8ca690ba46b2"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf short nonce with valid mac rejected",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "abcd.3ec05b5a611218969c04e12cf19ef8984cfbe3ea9da37085db82343e956d6b2b"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "csrf secret 16 bytes accepted",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef",
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "result": "00112233445566778899aabbccddeeff.c1615c3a048a3842d1676d9afeb2b42b6847b3fe7a1a47fe601ae6fb9883b357"
+     }
+    },
+    {
+     "name": "csrf secret as bytes",
+     "fn": "createCsrfToken",
+     "args": [
+      {
+       "hex": "00000000000000000000000000000000"
+      },
+      "00112233445566778899aabbccddeeff"
+     ],
+     "expect": {
+      "result": "00112233445566778899aabbccddeeff.8806e9fe623e7e4c50d80e95858cc7524a4a4c29e1b8b9126552c88d9bde68b3"
+     }
+    },
+    {
+     "name": "csrf nonce uppercase rejected",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899AABBCCDDEEFF"
+     ],
+     "expect": {
+      "error": "invalid_nonce"
+     }
+    },
+    {
+     "name": "csrf nonce short",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00"
+     ],
+     "expect": {
+      "error": "invalid_nonce"
+     }
+    },
+    {
+     "name": "csrf nonce not string",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      1
+     ],
+     "expect": {
+      "error": "invalid_nonce"
+     }
+    },
+    {
+     "name": "csrf context not string",
+     "fn": "createCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "00112233445566778899aabbccddeeff",
+      1
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "csrf secret checked first",
+     "fn": "createCsrfToken",
+     "args": [
+      "x",
+      "bad"
+     ],
+     "expect": {
+      "error": "invalid_secret"
+     }
+    },
+    {
+     "name": "headers defaults",
+     "fn": "securityHeaders",
+     "args": [],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers null overrides",
+     "fn": "securityHeaders",
+     "args": [
+      null
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers replace keeps position and canonical name",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "x-frame-options": "SAMEORIGIN"
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "SAMEORIGIN"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers remove with null",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "Permissions-Policy": null,
+       "strict-transport-security": null
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers append new header",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "Cross-Origin-Resource-Policy": "same-site"
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ],
+       [
+        "Cross-Origin-Resource-Policy",
+        "same-site"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers later case variant wins",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": "1",
+       "x-a": "2"
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ],
+       [
+        "X-A",
+        "2"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers removing unknown header is a no-op",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-Unknown": null
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers tab allowed in value",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": "a\tb"
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ],
+       [
+        "X-A",
+        "a\tb"
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers empty value allowed",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": ""
+      }
+     ],
+     "expect": {
+      "result": [
+       [
+        "Content-Security-Policy",
+        "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+       ],
+       [
+        "Strict-Transport-Security",
+        "max-age=63072000; includeSubDomains"
+       ],
+       [
+        "X-Content-Type-Options",
+        "nosniff"
+       ],
+       [
+        "X-Frame-Options",
+        "DENY"
+       ],
+       [
+        "Referrer-Policy",
+        "strict-origin-when-cross-origin"
+       ],
+       [
+        "Cross-Origin-Opener-Policy",
+        "same-origin"
+       ],
+       [
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()"
+       ],
+       [
+        "X-A",
+        ""
+       ]
+      ]
+     }
+    },
+    {
+     "name": "headers newline in value",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": "a\r\nSet-Cookie: x=1"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers LF in value",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": "a\nb"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers NUL in value",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": "a\u0000"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers space in name",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X A": "1"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers colon in name",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X:A": "1"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers empty name",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "": "1"
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers non-string value",
+     "fn": "securityHeaders",
+     "args": [
+      {
+       "X-A": 1
+      }
+     ],
+     "expect": {
+      "error": "invalid_header"
+     }
+    },
+    {
+     "name": "headers overrides not object",
+     "fn": "securityHeaders",
+     "args": [
+      []
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "csp basic",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "default-src": [
+        "'self'"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "default-src 'self'"
+     }
+    },
+    {
+     "name": "csp multiple",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "default-src": [
+        "'self'"
+       ],
+       "img-src": [
+        "'self'",
+        "data:",
+        "https://cdn.example.com"
+       ],
+       "upgrade-insecure-requests": true
+      }
+     ],
+     "expect": {
+      "result": "default-src 'self'; img-src 'self' data: https://cdn.example.com; upgrade-insecure-requests"
+     }
+    },
+    {
+     "name": "csp empty list is flag",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "sandbox": []
+      }
+     ],
+     "expect": {
+      "result": "sandbox"
+     }
+    },
+    {
+     "name": "csp empty object",
+     "fn": "buildCsp",
+     "args": [
+      {}
+     ],
+     "expect": {
+      "result": ""
+     }
+    },
+    {
+     "name": "csp nonce and hash sources",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "script-src": [
+        "'nonce-abc123'",
+        "'sha256-AbC+/='",
+        "'strict-dynamic'"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "script-src 'nonce-abc123' 'sha256-AbC+/=' 'strict-dynamic'"
+     }
+    },
+    {
+     "name": "csp semicolon injection",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "script-src": [
+        "'self'; script-src *"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp bare semicolon",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "script-src": [
+        "'self';script-src"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp comma",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": [
+        "a,b"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp whitespace in source",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": [
+        "a b"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp newline in source",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": [
+        "a\nb"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp empty source",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": [
+        ""
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp uppercase directive",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "Default-Src": [
+        "'self'"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp directive starting with digit",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "1x": [
+        "a"
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp value false",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": false
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp value string",
+     "fn": "buildCsp",
+     "args": [
+      {
+       "img-src": "'self'"
+      }
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "csp not object",
+     "fn": "buildCsp",
+     "args": [
+      [
+       "x"
+      ]
+     ],
+     "expect": {
+      "error": "invalid_csp"
+     }
+    },
+    {
+     "name": "escape all five",
+     "fn": "escapeHtml",
+     "args": [
+      "<a href=\"x\" title='y'>&</a>"
+     ],
+     "expect": {
+      "result": "&lt;a href=&quot;x&quot; title=&#39;y&#39;&gt;&amp;&lt;/a&gt;"
+     }
+    },
+    {
+     "name": "escape no-op",
+     "fn": "escapeHtml",
+     "args": [
+      "plain text 123"
+     ],
+     "expect": {
+      "result": "plain text 123"
+     }
+    },
+    {
+     "name": "escape existing entity escaped again",
+     "fn": "escapeHtml",
+     "args": [
+      "&amp;"
+     ],
+     "expect": {
+      "result": "&amp;amp;"
+     }
+    },
+    {
+     "name": "escape unicode kept",
+     "fn": "escapeHtml",
+     "args": [
+      "caf\u00e9 \ud83d\ude00"
+     ],
+     "expect": {
+      "result": "caf\u00e9 \ud83d\ude00"
+     }
+    },
+    {
+     "name": "escape empty",
+     "fn": "escapeHtml",
+     "args": [
+      ""
+     ],
+     "expect": {
+      "result": ""
+     }
+    },
+    {
+     "name": "escape non-string",
+     "fn": "escapeHtml",
+     "args": [
+      null
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "redirect local path",
+     "fn": "safeRedirect",
+     "args": [
+      "/dashboard?x=1#a"
+     ],
+     "expect": {
+      "result": "/dashboard?x=1#a"
+     }
+    },
+    {
+     "name": "redirect root",
+     "fn": "safeRedirect",
+     "args": [
+      "/"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect protocol-relative rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "//evil.example.net/x"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect backslash rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "/\\evil.example.net"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect backslash anywhere rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "/a\\b"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect tab trick rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "/\t/evil.example.net"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect leading space rejected",
+     "fn": "safeRedirect",
+     "args": [
+      " /x"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect javascript scheme rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "javascript:alert(1)"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect data scheme rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "data:text/html,x"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect relative without slash rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "dashboard"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect empty rejected",
+     "fn": "safeRedirect",
+     "args": [
+      ""
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect absolute without allow-list rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com/x"
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect absolute allowed host",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "https://example.com/x"
+     }
+    },
+    {
+     "name": "redirect absolute allowed case-insensitive",
+     "fn": "safeRedirect",
+     "args": [
+      "HTTPS://APP.example.COM/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "HTTPS://APP.example.COM/x"
+     }
+    },
+    {
+     "name": "redirect http allowed",
+     "fn": "safeRedirect",
+     "args": [
+      "http://example.com",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "http://example.com"
+     }
+    },
+    {
+     "name": "redirect port allowed",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com:8443/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "https://example.com:8443/x"
+     }
+    },
+    {
+     "name": "redirect bad port rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com:84a3/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect long port rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com:123456/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect subdomain not implied",
+     "fn": "safeRedirect",
+     "args": [
+      "https://evil.example.com/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect suffix trick rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com.evil.net/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect userinfo rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com@evil.net/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect userinfo with allowed host rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://user@example.com/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect empty host rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https:///x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect ftp rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "ftp://example.com/x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect query right after host",
+     "fn": "safeRedirect",
+     "args": [
+      "https://example.com?next=/",
+      {
+       "allowedHosts": [
+        "example.com",
+        "App.Example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "https://example.com?next=/"
+     }
+    },
+    {
+     "name": "redirect ipv6 literal allowed",
+     "fn": "safeRedirect",
+     "args": [
+      "https://[::1]:8080/x",
+      {
+       "allowedHosts": [
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "https://[::1]:8080/x"
+     }
+    },
+    {
+     "name": "redirect ipv6 followed by non-ASCII rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://[::1]\u00e9/x",
+      {
+       "allowedHosts": [
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect ipv6 unterminated rejected",
+     "fn": "safeRedirect",
+     "args": [
+      "https://[::1/x",
+      {
+       "allowedHosts": [
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect custom fallback",
+     "fn": "safeRedirect",
+     "args": [
+      "//evil",
+      {
+       "fallback": "/home"
+      }
+     ],
+     "expect": {
+      "result": "/home"
+     }
+    },
+    {
+     "name": "redirect non-string target",
+     "fn": "safeRedirect",
+     "args": [
+      5
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "redirect null target",
+     "fn": "safeRedirect",
+     "args": [
+      null,
+      {
+       "fallback": "/login"
+      }
+     ],
+     "expect": {
+      "result": "/login"
+     }
+    },
+    {
+     "name": "redirect fallback must be local",
+     "fn": "safeRedirect",
+     "args": [
+      "/x",
+      {
+       "fallback": "https://example.com"
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "redirect fallback protocol-relative",
+     "fn": "safeRedirect",
+     "args": [
+      "/x",
+      {
+       "fallback": "//x"
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "redirect unknown option",
+     "fn": "safeRedirect",
+     "args": [
+      "/x",
+      {
+       "hosts": []
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "redirect allowedHosts not array",
+     "fn": "safeRedirect",
+     "args": [
+      "/x",
+      {
+       "allowedHosts": "example.com"
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "redirect allowedHosts empty entry",
+     "fn": "safeRedirect",
+     "args": [
+      "/x",
+      {
+       "allowedHosts": [
+        ""
+       ]
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password good default",
+     "fn": "checkPassword",
+     "args": [
+      "correct horse battery staple"
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password too short default 12",
+     "fn": "checkPassword",
+     "args": [
+      "abcdefghijk"
+     ],
+     "expect": {
+      "result": [
+       "too_short"
+      ]
+     }
+    },
+    {
+     "name": "password exactly 12",
+     "fn": "checkPassword",
+     "args": [
+      "abcdefghijkl"
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password common password",
+     "fn": "checkPassword",
+     "args": [
+      "password",
+      {
+       "minLength": 1
+      }
+     ],
+     "expect": {
+      "result": [
+       "common_password"
+      ]
+     }
+    },
+    {
+     "name": "password common password case-insensitive",
+     "fn": "checkPassword",
+     "args": [
+      "PassWord123",
+      {
+       "minLength": 1
+      }
+     ],
+     "expect": {
+      "result": [
+       "common_password"
+      ]
+     }
+    },
+    {
+     "name": "password common and short",
+     "fn": "checkPassword",
+     "args": [
+      "qwerty"
+     ],
+     "expect": {
+      "result": [
+       "too_short",
+       "common_password"
+      ]
+     }
+    },
+    {
+     "name": "password blocklist disabled",
+     "fn": "checkPassword",
+     "args": [
+      "qwerty",
+      {
+       "minLength": 1,
+       "blocklist": false
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password extra blocklist",
+     "fn": "checkPassword",
+     "args": [
+      "lombok-rocks",
+      {
+       "minLength": 1,
+       "extraBlocklist": [
+        "LOMBOK-ROCKS"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "common_password"
+      ]
+     }
+    },
+    {
+     "name": "password too long",
+     "fn": "checkPassword",
+     "args": [
+      "aaaaaaaaa",
+      {
+       "minLength": 1,
+       "maxLength": 8
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long"
+      ]
+     }
+    },
+    {
+     "name": "password length counts code points",
+     "fn": "checkPassword",
+     "args": [
+      "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00"
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password length counts code points short",
+     "fn": "checkPassword",
+     "args": [
+      "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00"
+     ],
+     "expect": {
+      "result": [
+       "too_short"
+      ]
+     }
+    },
+    {
+     "name": "password composition all missing",
+     "fn": "checkPassword",
+     "args": [
+      "                ",
+      {
+       "requireLowercase": true,
+       "requireUppercase": true,
+       "requireDigit": true,
+       "requireSymbol": true
+      }
+     ],
+     "expect": {
+      "result": [
+       "missing_lowercase",
+       "missing_uppercase",
+       "missing_digit",
+       "missing_symbol"
+      ]
+     }
+    },
+    {
+     "name": "password composition satisfied",
+     "fn": "checkPassword",
+     "args": [
+      "aB3!aaaaaaaa",
+      {
+       "requireLowercase": true,
+       "requireUppercase": true,
+       "requireDigit": true,
+       "requireSymbol": true
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password non-ASCII letters do not count",
+     "fn": "checkPassword",
+     "args": [
+      "\u00e9\u00c9\u00e9\u00c9\u00e9\u00c9\u00e9\u00c9\u00e9\u00c9\u00e9\u00c9",
+      {
+       "requireLowercase": true,
+       "requireUppercase": true
+      }
+     ],
+     "expect": {
+      "result": [
+       "missing_lowercase",
+       "missing_uppercase"
+      ]
+     }
+    },
+    {
+     "name": "password space is not a symbol",
+     "fn": "checkPassword",
+     "args": [
+      "abcdefghijk l",
+      {
+       "requireSymbol": true
+      }
+     ],
+     "expect": {
+      "result": [
+       "missing_symbol"
+      ]
+     }
+    },
+    {
+     "name": "password tilde is a symbol",
+     "fn": "checkPassword",
+     "args": [
+      "abcdefghijk~",
+      {
+       "requireSymbol": true
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password repeat limit",
+     "fn": "checkPassword",
+     "args": [
+      "aaab-long-enough",
+      {
+       "maxRepeat": 2
+      }
+     ],
+     "expect": {
+      "result": [
+       "repeated_characters"
+      ]
+     }
+    },
+    {
+     "name": "password repeat at limit",
+     "fn": "checkPassword",
+     "args": [
+      "aab-long-enough",
+      {
+       "maxRepeat": 2
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password repeat disabled by default",
+     "fn": "checkPassword",
+     "args": [
+      "aaaaaaaaaaaaaaaa"
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password user input contained",
+     "fn": "checkPassword",
+     "args": [
+      "my-ana.wijaya-pass",
+      {
+       "userInputs": [
+        "Ana.Wijaya",
+        "ana@example.com"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "password short user input ignored",
+     "fn": "checkPassword",
+     "args": [
+      "correct horse battery",
+      {
+       "userInputs": [
+        "co"
+       ]
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "password all rules order",
+     "fn": "checkPassword",
+     "args": [
+      "Ana",
+      {
+       "minLength": 8,
+       "requireDigit": true,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short",
+       "missing_digit",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "password not string",
+     "fn": "checkPassword",
+     "args": [
+      null
+     ],
+     "expect": {
+      "error": "invalid_input"
+     }
+    },
+    {
+     "name": "password policy checked before password",
+     "fn": "checkPassword",
+     "args": [
+      null,
+      {
+       "minLength": 0
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password unknown policy key",
+     "fn": "checkPassword",
+     "args": [
+      "x",
+      {
+       "min": 1
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password min greater than max",
+     "fn": "checkPassword",
+     "args": [
+      "x",
+      {
+       "minLength": 5,
+       "maxLength": 4
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password bool option type",
+     "fn": "checkPassword",
+     "args": [
+      "x",
+      {
+       "requireDigit": "yes"
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password list option type",
+     "fn": "checkPassword",
+     "args": [
+      "x",
+      {
+       "userInputs": "ana"
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "password negative maxRepeat",
+     "fn": "checkPassword",
+     "args": [
+      "x",
+      {
+       "maxRepeat": -1
+      }
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit fixed window basic",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 2,
+       "windowMs": 1000
+      },
+      [
+       0,
+       10,
+       20,
+       999,
+       1000
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 980
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 1
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit fixed window aligned to multiples",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1000
+      },
+      [
+       1500,
+       1999,
+       2000
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 1
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit fixed window skips windows",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 10
+      },
+      [
+       5,
+       95,
+       96
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 4
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit fixed window limit 1 burst",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 60000
+      },
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 60000
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 60000
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit token bucket basic",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 2,
+       "refillTokens": 1,
+       "refillIntervalMs": 1000
+      },
+      [
+       0,
+       0,
+       0,
+       500,
+       1000,
+       2500
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 1000
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 500
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit token bucket refill capped",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 2,
+       "refillIntervalMs": 100
+      },
+      [
+       0,
+       0,
+       0,
+       10000,
+       10000,
+       10000,
+       10000
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 100
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit token bucket cost",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 5,
+       "refillTokens": 1,
+       "refillIntervalMs": 10,
+       "cost": 3
+      },
+      [
+       0,
+       0,
+       15,
+       20
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 2,
+        "retryAfter": 10
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 1,
+        "retryAfter": 20
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit token bucket clock backwards",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 1,
+       "refillTokens": 1,
+       "refillIntervalMs": 100
+      },
+      [
+       1000,
+       900,
+       1100
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 100
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "ratelimit empty sequence",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1
+      },
+      []
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "ratelimit unknown kind",
+     "fn": "simulateRateLimit",
+     "args": [
+      "slidingLog",
+      {
+       "limit": 1,
+       "windowMs": 1
+      },
+      [
+       0
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit zero limit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 0,
+       "windowMs": 1
+      },
+      [
+       0
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit fractional window",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1.5
+      },
+      [
+       0
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit negative time",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1
+      },
+      [
+       -1
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit cost over capacity",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 1,
+       "refillTokens": 1,
+       "refillIntervalMs": 1,
+       "cost": 2
+      },
+      [
+       0
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit times not array",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1
+      },
+      0
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "ratelimit config not object",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      null,
+      [
+       0
+      ]
+     ],
+     "expect": {
+      "error": "invalid_option"
+     }
+    },
+    {
+     "name": "unknown function",
+     "fn": "nope",
+     "args": [],
+     "expect": {
+      "error": "invalid_option"
+     }
+    }
+   ]
+  },
+  {
+   "name": "generated-regression",
+   "cases": [
+    {
+     "name": "generated 001 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "cdda62789b3656eb97037909576f5c375e2ab057e925b984a59a7f00828d6b34d84649"
+      }
+     ],
+     "expect": {
+      "result": "d9910e21ea6b9acfbca10d67fa25a2861f4a92cc636f77c7ee9dfab994b89c85"
+     }
+    },
+    {
+     "name": "generated 002 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "826bf8639cbef2cdabb00f5ad7305cc4bd43fc0d45ff4d8fc720b04cb3ffce45d58197bca31ca8e97924a1b7d686ae6f13cd8215735bd80301dc60276901eae47e67ec5091ade9b26c77047a24670e397a1b77d95629d7009cfc6c61121707b786"
+      }
+     ],
+     "expect": {
+      "result": "79e20120fb638ee267db92a41a455e5f3053b296f2e8aec2bcd5746447b93078"
+     }
+    },
+    {
+     "name": "generated 003 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "4db0b2e0d0"
+      }
+     ],
+     "expect": {
+      "result": "be1734f8b64f920bb7a028574fd6fdff4c407e2d43d166eff903e2f69a981531"
+     }
+    },
+    {
+     "name": "generated 004 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "c916e269db9a6f433e7668e97f33358f5fbfc86d51ace6ffbc7267453ba97a05ddc3dd1e46eb144263605a63dac00430be84abe196a89c330ae90357fbcfa213bee439ca6a824afe12b1c45ea3559a75ef4e38df408f5dc1baab06cc919d43dbfc492eb8267037e8cae746fcdd5c3a1e0a46843a26d709bd1a2c756c5a1423e27a34eab7351260c5be3bdeb28f16ddba954766103bd6d7"
+      }
+     ],
+     "expect": {
+      "result": "672372c0df22342b97665e17e4f6ec1cfbdb19e571931afabd1768dcd0838a1b"
+     }
+    },
+    {
+     "name": "generated 005 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "3fed7557d4331c675ff2cc0690068a98a7c9a2728f1a2bb39df5b872c57c965f8a2f9c75c7e837b7cce5692f9b09079947c5ec1b8e092fbe81a728bdba1fa62a795ffb08e820060a2455ecae7fa201edddde24c7722951590bf3acbb7095117d4235cbcf804c62b3d935ced6082ad0d3"
+      }
+     ],
+     "expect": {
+      "result": "1fc80a88bec48f0ea4fce38617c079a363de9591a511ef3e188ace0d345238b7"
+     }
+    },
+    {
+     "name": "generated 006 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "cfd883d15d7e9c20693780e1ed0e53757e1e65a53e8f7ab57f47e1bb8de96210e4ea0bd4990b45ae4904c6f3d87ae20c7c7628591520af5934c636a7fb9142cb61a316cb551e5d18afc040ae36f28505aa45a79f0fdb0d75d0fd67ffe749f7"
+      }
+     ],
+     "expect": {
+      "result": "ba63e8cecedc1f47a1b6ae6e629ffa9be24a5b2ce2fe4a2e9a7f3df30a6147d7"
+     }
+    },
+    {
+     "name": "generated 007 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "8df322dd4dc09912f88578058a89c18bcbb00b189262a466956dfd4dc5fd7458453f9eaf82debfdaca07d18e731e9b15563987edaf75e91d8a3ac9f4ca34d876d18666c7998e140e3869213eaacd844dc31988efc6f6025f1a673c7abab52af69b5e1c32d408f4452df2051abb4971063888e794ea38b3bd96e48420a84fb93018a1138ed79502a49f07937777"
+      }
+     ],
+     "expect": {
+      "result": "e1a5b042400af550e619e39045645b8d6a6c2fd13d96af14b8e8f05863d6b2ff"
+     }
+    },
+    {
+     "name": "generated 008 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "295ee0b6f19f7e888e5810ffc5ae88347f4f03c71d3f0815c67538ccb8bae139e83606d9198625f623310aa335956aa12bf2"
+      }
+     ],
+     "expect": {
+      "result": "ddc7502cbbe6ff81abf749bb6addf7915d77c912305f393a808ec95325bfef0a"
+     }
+    },
+    {
+     "name": "generated 009 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "27432c56e16147d480b81c8b4f3a67"
+      }
+     ],
+     "expect": {
+      "result": "0518fdb160ae20ec6f1f2af2e241354ab8774717222846e45802326c49feb2c9"
+     }
+    },
+    {
+     "name": "generated 010 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "3b8306a0ae9b98fd1ae841fdeb0beeb512efbb77d36f4188d1b5067382ed1e6bb3d26703edfd1fa4bf1ffad33111afd04e194a9ad7d74678c71996792b4b90076b99c29521b37e3642268d405c4b4789eb4deaad925a1d900b29f8f6203868039dd44bb4c961a6ee8ad5efcb41872af69166c6176434"
+      }
+     ],
+     "expect": {
+      "result": "db74f088c854932f411a7815b59fe96d465587a45f5bdb5a2ebaa4e9d89ad99d"
+     }
+    },
+    {
+     "name": "generated 011 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "09de80ff3df3c4f1cf1d3c57ddc363a3bee14aa92bee43432371cad119627cd9254fe7819363b4f7024be767b6896f58b435f62d2214fcf6ab73e7839b68cc5de11f3d5c3efc974f0c180197e728f369dbd9da1b654d5236404510c141356228627f97b1cf9de919e53390760b6a3016c71c0c"
+      }
+     ],
+     "expect": {
+      "result": "dc9f6d0e5f85be17c4c830216c1d72ede1d3cf0fa2f116f2bc0b9d3f57c3f3de"
+     }
+    },
+    {
+     "name": "generated 012 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "747550d20b9c21b4"
+      }
+     ],
+     "expect": {
+      "result": "5b5e06f372426702ec3fdcadb8a350933f2e84b399d422ba0833cdd84ca43d8b"
+     }
+    },
+    {
+     "name": "generated 013 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "dbfb871eab4e3957728af4f746a40dde3aad5754e53b1d8b9119417a01761e02015272ab4ab08c6546e539cdde859527db2e1575dd476e6d46461dae214db5630bb281473f31547699a056735349e5a75f747b6b2e366fc06b2fb116bebf8c206bf523cc1189d8899552b62ba7ed6e9dd651a9de77dd757ee2a685e3b3b16e870b3b5e6c4454835f7f06464e3f1364531d7203eb5562c3d8968d6809787ee45a13ab"
+      }
+     ],
+     "expect": {
+      "result": "35531c17a2358c434e1ad31ee48179de929f8367ef28ab139ef1e644056a7a2d"
+     }
+    },
+    {
+     "name": "generated 014 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "7e098edc071423cb9fd5bd821d443e308ef48778d2ef4ec8b25d5f0609ec8eabad9d8dab62bf7bf863521e52443190aadae8df8393cd57a53d5d153f16e3e280bce4ab55a589d9e4bedc3c93a8685d46a963d83f0e9333fba295b4cc5149576f8ede54d55363cfecfe79f258929428b0f53e61bf315553c5b549b4b492608274bff33c2156b02649d6d7"
+      }
+     ],
+     "expect": {
+      "result": "302128b0d8b35d06ae08e26990c55467e1cc1314ba5730e8b704d425fde11aae"
+     }
+    },
+    {
+     "name": "generated 015 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "2f607ef30cfb3f6f63b1b18b7ad0d7c7253b3b5566381953e1b699d58a4b16d149982e86a38bb2406d77fe31618557f702bb154958179e6c89c040ea2dc66142942d451d1aa047060e4384b1783968da3be0db736c080fd1c0f3a119707e695a2a306713a18fef177d22cefb"
+      }
+     ],
+     "expect": {
+      "result": "b7eea36a203c7e20c28c04ca42c62eb1972da3ff710b21d89988f22e850b3076"
+     }
+    },
+    {
+     "name": "generated 016 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "5595cb3547"
+      }
+     ],
+     "expect": {
+      "result": "1df5abc1e25c0f251ffa9a040490e11e7486c4c5e69ee7eb81ad7b3a0d39d448"
+     }
+    },
+    {
+     "name": "generated 017 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "0794ec3638746aa333369e46fd9f2fd5aff1f82ab62f4983146396fadbdc66c5b465c8da16fd78b55dcfd03003265dd6f6e7c47fb0611217ca453fb790886338dd7f74febfd117ad145e0e7fe7551e16e985415a3a06c7fdb069342384a6446d25fc9e7ec1112813495c28264959fd6bc197abe2e84e55949a54124be6551e3aff702b305cded84aa61aacf2e1a2b6dea546984353efd9edc74cb6689dc82bff308ef4bf9d8b8d74c06a31a93599ddac57424c8743"
+      }
+     ],
+     "expect": {
+      "result": "47aa7a7e03198615f7a31660c9cf3e44d01c1c743d623dfb7cb5bfa88d736cea"
+     }
+    },
+    {
+     "name": "generated 018 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "fc07d5e625d188837a97794764a674c46f4484e65877c4b9c5bd18227a0967767ff442a950a446dbfe5d5aaa67dfcb5d2263d3757236e828bae60b483931fe65"
+      }
+     ],
+     "expect": {
+      "result": "2744501f8882c623da149b5d634741930910fc117abe3d4389296d2cd62da37a"
+     }
+    },
+    {
+     "name": "generated 019 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "670cd1287bfd5d72137bbd2f6c97a8b9c215de3a880784d9e0eb87fc5722625698e3c2ace05ee178c43a0f6f234fae5d9bbfaff141d1374f6afd8acd4921c00f1d5c9eb52b7eee99afbfd70b2a560add6092260c0ff96162c801017db4d049ee67286d303e148e2f1f5108672a66a7a0f4a35f25509e1f66214f36d2b042019d223ef7267a715c3210301b3a81f9c817e8f310902668e41a93"
+      }
+     ],
+     "expect": {
+      "result": "2634a5d85aee920ba3d89f4525941f43fc5393a4fbf90927440d1e31663155a3"
+     }
+    },
+    {
+     "name": "generated 020 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "a367169a308f3ea49063fbc4cc5afdee100290d31d6184d51eb3c90ad4e9f7a774bbaf7ffcc53e03c4f3dbecafc613f1ecbca40e3c8f4d20ef573ca1b5f393f2cd406fa4531a442eae0b8bb88c7018ecf54bad745cddd80d34d397e752e844024301144f0c33592d95861e60706101f67a0a56995a46aac42353fae06893dad31c7260c203b60a66f691a322e45a5c52c1a01128e5fba9d565b1a6b4849e9a4fa03967a937f2"
+      }
+     ],
+     "expect": {
+      "result": "445d692b813d3979bda6270102a192a3f049b61cf27ce0b6d8a957f115f9d1b4"
+     }
+    },
+    {
+     "name": "generated 021 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "7d1eb1fdbd1d357c041568632de625e86df992c8ee54f5708d17f777ca51640cc3e36a868d84a5b0e991287f97ee0073908659b7dfa8fb7e66c7fc509dd9f531c2f14b211449abb53cd8efd850070f5ca79a47b7b37c5252db7f256f37a7e79c41b4efb2f5c1e673f0df"
+      }
+     ],
+     "expect": {
+      "result": "cfa3ac1e693a27f4fcfb84e800c03c133bb32a1ab53bd84633bfc62f4ff36578"
+     }
+    },
+    {
+     "name": "generated 022 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "2c95be9e5423456c2be035815c32ca019c2434a56e521c54366e44cada652895555bf0fd1f281f023e4799d05530dc386a414d9b765210c11b6cfbdda3cab3d3b943ade2787e45045278744b3b6c8762b0ee3dfbcf56f83908f0df950142dc7fc8d698be119530a91a40d5803a09a8bad9782a8f0a2e886ff69418fe1a20a0b0ef9fbd5720271a719a0046ea73a28fca4d4718e2ad32e9bfb5f59d705a842fb3e1d102acc5c2c4f1e8fe41ded954e2c4a53caa29"
+      }
+     ],
+     "expect": {
+      "result": "dcf044478d8640a3ba2bc6c0515d3c1376d69ddedbd2200b431605735aa4898e"
+     }
+    },
+    {
+     "name": "generated 023 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "ea875a2ac271c104a39ea2bb8a7795564d8c84df702bdb88750b4e9d9a065e22985bf15af9aa53dd8c54717fde963c402ea6f07ee57ad6b35c800336f83e9c1cb9690b167b764c29f41541e469630e4c120e6d3cd060124518693a25010385fbcbfbd283cfe782321c100f88503cef28e8cee0eb0d96ad8921287d7494de3d694a495b43e31f8f5c596a7db3a0a55208444f9975ab95610929aff1cc77381dbbb7dff19e8e67eb096211de5bc6b2f144e4"
+      }
+     ],
+     "expect": {
+      "result": "fd641c66646c7ae8f38819b7486ba2f32e4c83a58e92770b0583b3a798f849db"
+     }
+    },
+    {
+     "name": "generated 024 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "86a77960fb0bcc6ec36fc8a757e43b7b5dbf2a93951eb91021eec982cd537bd9b2e627bfb007ef27b9bdcb908fdec67739de506ebb720c4bcbc41a26edb09e505b24f4c3a5136be2e00bcb24de7bef3907d8bcad32c42e022ca3b70e6ea3fde241ed11fa712c86b30c3dc3e8eaea16caf707692c872ac9a076fc3d51fb4c852d66a5ca341d6b4eda87c9063dcca7b6535e55dcb9c3d9256767ff91371c2fb5d91278d50e57f3fb4b1ce01be2e108ad71e090bce327b3e0f9c30f9723"
+      }
+     ],
+     "expect": {
+      "result": "2d6c42b07aea5b04613ce9486aa0030fcedb11a40752af2c0b78863734c567e7"
+     }
+    },
+    {
+     "name": "generated 025 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "ed3a2d07bab6adb4af15dcab7196d701e22fea360ac80142da493744bccb2b5952b11e8e6a5318485e5e7731b347096b9fe80e70c51e02c3e5d5048a1523871a982c996de1379ac0fde5842e511bd817c2990469d49b5e0e8908b0cdff65cf7c2f6962104531e88b05deb6b037999eddc57342156eac9957f991d3221cc82d6e209ab122db763f19fc2e6cae4fbd21f87c3f9611d70686c68c8a8b80ed52de8435d956ae105df0d127dc88b9650d0e"
+      }
+     ],
+     "expect": {
+      "result": "955e34406f075f01462928947f34b47b205f6ad8230683a03f18b90dc0001489"
+     }
+    },
+    {
+     "name": "generated 026 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "0cf717054877d4b47877396528c5dd65d459c05497521266dd8bc088f3f219490a0465ee36c9e3cdcc38be6055096df095a8f75435f486262d36ed3847de6e10ffba7abf60346b1304edd9cc190fe05c92d7e1427976f5aa1ecd38ecc878cedec8b274060ad978bd696efa72f0dafbb56cb39a037ae30e0f3ff23f82032a25b9fc973f102c456d5ba8e9ad04602fea3595311e5ad33744f900719277976bffe228305fb6973c74a227fce68bf6f7c969a3e8588c93ff32d22e1e98641e36035b24f71319f953f2"
+      }
+     ],
+     "expect": {
+      "result": "ee0ca5008f3291ab1f2c2a2fc0b3b5bb1626c5604cf8c84f3431b058bbdbb329"
+     }
+    },
+    {
+     "name": "generated 027 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "b31d7fe2e7e294d48fb63fd8b6f1c4ce580bb1cde0fe06959cae91e4657a74908d127a312d66f1dfd6cf207cb3e322e9470d7d6337e0f007b6a2b39a2693be1e0672336a7d08747f56b67f7d4e5b74e124ddbc532f08ce8cd346340e8784cdb32731"
+      }
+     ],
+     "expect": {
+      "result": "53900062545e196c754ff7bfb23cc438063945a34677e5161bb736ed0e34797e"
+     }
+    },
+    {
+     "name": "generated 028 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "f9aa17e62a754f75f2aa57b4522865773cc1887d3a032460c8349be3b851ce9c3eac6b448b90f436f0e60b6b5370e9e01c64d111b238df29e85a62d60c8f32fa876f132356b89e2fb820e603f3e99a3e5ddcbcd41be738ffb3ca80520b4f0998e3b69465b23fc6bcf9b7421337dd94c2b9d50030ded9b667dab71eb66d92b8f167392ab593c6b800d4afc18b76dca34a24cd4290c5732a31f82331a6e81cf304c08f31c6"
+      }
+     ],
+     "expect": {
+      "result": "4ac23f745e2acfd74c043f1e365aa31e18a13c29097d71662a545f040281cd84"
+     }
+    },
+    {
+     "name": "generated 029 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "8a10b9bb32f9bc9e40518f6d5e58e1cd9e8be40180c5ef2cd2ca2486773ab945f21cd7ebabb1db653af0967ddc4a9ef52c511db0d5b5f68ecafff97277cc704e9b4081b5330eee1732bbebf40b48534d060f7d4666e87791d8d025a90d57a56cc3666b9d7667df0616f6a16d7bdf2f6ddf53ab75efc9971ab0ea86b36fbef730d67fad42241748d411579350ec1ca727a78910d025c49f536621d60bb8b17a71346e3d68"
+      }
+     ],
+     "expect": {
+      "result": "aab4c227764212138cbdc05f4be2b85f142fbe7e41be9ce6552c4b89d4661cbd"
+     }
+    },
+    {
+     "name": "generated 030 sha256",
+     "fn": "sha256Hex",
+     "args": [
+      {
+       "hex": "ee390d62f0dc9a10339de6edac0d587e23d40f83a63f3985a776ab14759b"
+      }
+     ],
+     "expect": {
+      "result": "5802c2361acdaf508650d08bb38ac68ccbcd3fc6513e2f1d6ea9b65c93f1e9be"
+     }
+    },
+    {
+     "name": "generated 031 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "94fab6c9ca8ef0a2a53ac384b1453d5cabb5763439085263e5716c205420d1657024b39342f94bf02dee6110a0904cf1fee5ad30969ba790bbe75663"
+      },
+      {
+       "hex": "66d3468ae3f0e0cc14fe1946e99f4688258b6760e7c1b49a3b62048b8d142e9f4f7dc38caf3f0b12c10311d5c0"
+      }
+     ],
+     "expect": {
+      "result": "4fa0f48243d0543653875a7efdddde63567a9e85ad00ba578c1601f7e9e1c4e3"
+     }
+    },
+    {
+     "name": "generated 032 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "14ed33c0dd3510550abfea65c6c79faa144127e7c1b636c50e3dfb0de06bf228f4e0d062b9031ba277afc5f20ecdd8e9e399c37772034ec299aca2209cacfa0c2fb523b2185efae88105c799b74fd717b0c8cdbe992eebd9"
+      },
+      {
+       "hex": "c70b15e8f2b956d42e6e617dfc"
+      }
+     ],
+     "expect": {
+      "result": "efce2ee14dd2af11c643e79da275e0526a09eccef6577a570ab19ef889ad0a4d"
+     }
+    },
+    {
+     "name": "generated 033 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "afa9e66b9c993bca12d5953b608e8eb213bb2696df4607"
+      },
+      {
+       "hex": "e71423bd2c62d93929fcbe636788a29645dce1d14d8de42df5aae0a0628095bb"
+      }
+     ],
+     "expect": {
+      "result": "90d02f372628544f85fe49cde9dd0031a8e3026e1c072613bb99e0deb9015978"
+     }
+    },
+    {
+     "name": "generated 034 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "56116d5e66e322993edec89bcd02abe79a2090"
+      },
+      {
+       "hex": "0e508519ee86a090da0fb4e528d2eae829e0744d7e6e1c018abfdef5ac5f979332a5d4e582eb51be02d2f97e8e809b504ca27193874e67"
+      }
+     ],
+     "expect": {
+      "result": "4cfc6012c374a86810923ac790e0b29a406775e0ed3d3b0a493ee392b8c9b441"
+     }
+    },
+    {
+     "name": "generated 035 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "9e8106886b52e0be3b707ecbc016ad1aabd0"
+      },
+      {
+       "hex": "10ed17918e52df513d3dbbe1170ddbee5518cb204a918624e6851a5f6f46679a69d04c8b6948851033e58d6ecc2fd28357bc68c1566654b03f8a2670ef7fbb7f7158fd78bda69fcf7335e397"
+      }
+     ],
+     "expect": {
+      "result": "29c2c0de58d06e13d2724821f2fa78d6c69d22ed363c5b61fec75d498ba6b812"
+     }
+    },
+    {
+     "name": "generated 036 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "cb563e8bed8f4c4d9af428be0f764654f9b3db853dfed6ded636f15402bce28ebdfda67631abe9001e3af0135bddf51843dea36440125ec7b07993d2c8b74ad2bf81c653525b8fd5e39872d2b9a2bdf43f37875b42a7e7d9341839a7a40062f7"
+      },
+      {
+       "hex": "d3ce7765cd0637e1281fddee14"
+      }
+     ],
+     "expect": {
+      "result": "ef789be9eb02f8a0cc3b45ed265b8171f4516f7fb598d7858c4bc1faae611bbe"
+     }
+    },
+    {
+     "name": "generated 037 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "641b07f636ec47e9c96715ca77b5d6fbeaa1c8cf44b9497e410a736696d74be66523c088a7d7"
+      },
+      {
+       "hex": "de4d8a8a45b22b248b923aeb34520dab283427952c5aab7c503d29290e63b660aba591ee81205f0cf32998ff094d3764b4a6a052dbf94d18152639567b3b66844284187b3e190deb4e79f34d9faea06a593c49c7e98823"
+      }
+     ],
+     "expect": {
+      "result": "c89056e4e227aef4b840bbc655ac1865f2952c89084714d2e479d919a9ba2a0b"
+     }
+    },
+    {
+     "name": "generated 038 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "216535dd99f3c1100ff4b4e2bb187030da0c9851cf2257e5d83c9b8c064179725f4a79a4206078f1ea5ed1d2e95a4fe17e3453fe0acbaf060453f53d27be0cc060846d1fb11743608b0d3d92"
+      },
+      {
+       "hex": "5199729bb2b69d7ccb85b92606f27e2dfd00233e0bcfa499558357f766765813202b5bd45f344211bf6ded4f11fb7ddc33f7f2cd6d7f395894aa"
+      }
+     ],
+     "expect": {
+      "result": "fead1448783a030b8288eb0c9dce9301cc742fc289397beabfd07be20861be5e"
+     }
+    },
+    {
+     "name": "generated 039 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "07a4f964e17042e05e74fd"
+      },
+      {
+       "hex": "0e2fc7bb66f296acc696b518aab1782187d4b668d9bfffdb6c774e5b35764db556a058aa224e7ae71c47df4435c682be0f6ad4"
+      }
+     ],
+     "expect": {
+      "result": "b26652637af649dfb696388460e77368ee830d09a6c122ae40679551efa0c07a"
+     }
+    },
+    {
+     "name": "generated 040 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "342f0fd9ec8c646e682a4a5b5207"
+      },
+      {
+       "hex": "9068cce37b04a7732e8d58db8f4437bf20eea2d9d01cec2a5fe36cd736ad99f8c5693e1217fc414ce516f27c6f5a15fed21bdb2a7fcfd684ca7c582c3db9ed45f417af1c6427e554b80301878cbe9b05703bf7314b1a8f31d630be705ab6ee4d5709972f13bd609b756e24e72e0cf57b7b2a232a07432519da"
+      }
+     ],
+     "expect": {
+      "result": "1b7c9449ce3b194a1f5de763cfa4ca1455d3c5e7a43e4b88aaa758fb793be10c"
+     }
+    },
+    {
+     "name": "generated 041 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "4e4df8280c00b2cae1ca71b436873eb29cf2a203a80cc66e15d5872ed9c97546a87c74f1b44e0b6d97aa0e7eae594681c2ddd32bf572ba"
+      },
+      {
+       "hex": "52a2512db7853cf6d1c570571d9ba4ad01afe9fc853fa70956a0e196524ce6cc526a778f9ecb8f81f0a77a06780f516fb1ce94ebe1a453a253a52b631d3117e30a4872775d3dc30f9c336de49df53f0939c5bb1daf423062bbab1726d3f9524df27c00"
+      }
+     ],
+     "expect": {
+      "result": "bfec260b5c38eaa2ef86ad3f8223cb497e6c95fb3521e1e85c461b2092c0988d"
+     }
+    },
+    {
+     "name": "generated 042 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "02bb44d1f0c3833916b3ca2bb3b4bf74870df23de8f07311be1699033d292d96db72b2f63956e03f6249bb21782e1d6ad56dc4a41bc7ed876402b126b3916a3b5822a573e50d9f70c61d28eb5aa5f4972c559c2dcb92aec855f4482716cf0420ce092b988e1c"
+      },
+      {
+       "hex": "8436a3e90f29d7f40b1654b279617101e183849eb330a6bde0abec5fb4200609ea54aa870829df38f20f8fe8f62ccdbdcd20a64f74dd39e4e84b7dd5a8868ad0f91bdf8620697f27620d303eb028f4a4d98edcc732e500931850998571f8ee5e15c95f93ed2b6c5626b8d1b93dc5dbe22bb20bcd5078b8b12ddfba7a133cef95bd67c601fb95918012e18bd6cf6b59c5"
+      }
+     ],
+     "expect": {
+      "result": "b4850cbfa2431f02b9fa336dc7b6f73cdb86b42749438b439d291b2c5f5f16f5"
+     }
+    },
+    {
+     "name": "generated 043 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "2156a4b40e4ab007e68e7a96baab5aa769939659f5c6de5d54778337c4ccbc810522556010a990f5594b08415eb99b0d900de89ba7208d04267ecb63a1248d2f020989b122ffc90d6e7abe632bf6c7d366fe5c85296a8f"
+      },
+      {
+       "hex": "c3ccc2cec65fdc7a9185ce92c749106446149b7a0ca1"
+      }
+     ],
+     "expect": {
+      "result": "af19005685d97b43086009fc4f7d1234031ea3191dc6d61b8728eff0cc7d1349"
+     }
+    },
+    {
+     "name": "generated 044 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "8640856f6d47801fd444b4dae4a873abec12a0eebe47f863cb4a6c43bfc392f7534499e2b2ea7202985fc9149bb709c29772da7dd8d9cecb02ac8657edca824b6b0c73f5ca71e53605ff62750be1e482fd0c4aaae16dcedd134ba512889256187c3077c725cad0017df86502d8"
+      },
+      {
+       "hex": "687f5c3368be69fa7c5d638e84198fb2c20fb7c81b8dfdb9a12ca63df6446755d29d1cef1bfe4cbcf1934bb8dae7bc2ce12a8e76aa836599a860d87b65b1b226bf29320926f38472e59afd194df5fd8d7e81b27f62599cb92ba5522263559fc4e81cc37f27cd907e1fcaaea8d3d2e7bf03a7605cf32d6bdae46db6d9366a1b61f7d7db88c0e860de6136b673dc"
+      }
+     ],
+     "expect": {
+      "result": "713c4c2df549a11ebaf686eb379bdb04bab5fe3d082dc7e4c4fe0d183f28e1ed"
+     }
+    },
+    {
+     "name": "generated 045 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "c71e5fd4defd850625aafc598e60885bcd6bb52432e49846f8b52f2081cee255d8a8ff512fc23cca6027393c6fe5fa6b0596e1e10fb9cf2887180bb0cffdc7e43d9b474ea8a3dde41a7645d2d027052c9d7c0b936d1c2fd8f25163df3017d15ab5fdef42029bebad644a878a1fc6164e483dcc"
+      },
+      {
+       "hex": "db6bc07216bffe35694ba8ac38f5dc19a0654d9dbbcae1745fd9af3eed663323a40d0dc6445f7b33f19ccc16fbe69932487ab2703cb0eed041f071cb4a447c7b6757709bcc"
+      }
+     ],
+     "expect": {
+      "result": "f71fc727c75da456d6e13f1b4103898f6dea87282feec60f7b97e4e18a23c6ad"
+     }
+    },
+    {
+     "name": "generated 046 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "d185ca824133d30d80af7658514e1e93e8d760492e23a8be8a39c6c47e82130acaab99995684d64c6ac8769751a6683991262001a573d32c8586bbc50031627b7bf6f0"
+      },
+      {
+       "hex": "46e05653edba00c8e18ad4dc91604d003e4baf00ffae15ce02a5db3cd99a03e79cedf4fbc757054ce9f45a5ccaae48caa14677a40057808c5ed803dc287bd7d030ded62a7e197696fc6af4d7731a653fa96a"
+      }
+     ],
+     "expect": {
+      "result": "32d60b580e9409ed1b693e1f184c140e353a8683b7c99355a18ec74c7a538846"
+     }
+    },
+    {
+     "name": "generated 047 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "72e15beb8999175fa069835ac4f0a05350b7456421789cd2d8b6ab9250821300d3475c078eea102a564948c6824fba01d1dee4bf1837494ed31a258d24a71809a88c72a844d847ffdd6fb543d91856e44e8f16afaa004290460a31c2b6e3c23ee90d43703558773ca9a5058f1dec4828ef86a3cb5b8a4d2a879d45d80a0bebb397c1734138479601"
+      },
+      {
+       "hex": "6896ec9334d5db446999106d1c46979bb5398705cb82b70405abe0d6a0d5e588d3585455658f28be63103b3721dd88f673cd42067cfb8709dd463ffaa964fa5cbd10f539dbbb88c2f0a369806260c2327946bbb16e"
+      }
+     ],
+     "expect": {
+      "result": "fde8ed5663d9c1f21cb27651212ab30fd35289ace862caa9e827f06c6426947e"
+     }
+    },
+    {
+     "name": "generated 048 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "49b22206ecfae20e51c017a3884d5de4f5874bc15a"
+      },
+      {
+       "hex": "4e4c06ced98917da4c7a03d2fe2c2036558b497ef9a1648c8abc43f85bcf8a9fb2b0f4e00c59fe17959f"
+      }
+     ],
+     "expect": {
+      "result": "c6fb0c2fbc225778f2015d2518873db96e1442d5f251c16cda9367611f60a58d"
+     }
+    },
+    {
+     "name": "generated 049 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "f58f9492598c8009a4e8be39149dda63e35bf66088697637d399e0511d98f13ede5e56f268a85e79e88d54ef558de408a54c6061f60ab56bc42ec86cfd932a53023ece6db6e46a33efac6a9061c181c47a9368c14d681c6f42d0931227d2c1c89b3bf9fc223a60c59d7e59a40bf94ed3dcf1697ea186467b223f4c40371d"
+      },
+      {
+       "hex": "d8278ea59648f09a088a7bb7"
+      }
+     ],
+     "expect": {
+      "result": "b79e85bc3324efa951d5da3bfebbd691b5718a8613eff403675d7e2ce9fa3f13"
+     }
+    },
+    {
+     "name": "generated 050 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "984f110478c073c0adb2b1061a5fad628aaa9ed5b69e874131d87632d07ab3e635a95f7069ab17d3f404a875a972c9753b70430eeed0033dd5524ce706540243ce19519c"
+      },
+      {
+       "hex": "c822d5e1d75ae44afee1ef4858996fc4ece3a9836d5a6de9f996d9b1dceb15b7bd252f90"
+      }
+     ],
+     "expect": {
+      "result": "53707e89bcc8cb9e29e307b13daa2e34c6092e8dcdfb622da9cbd065be13c2a9"
+     }
+    },
+    {
+     "name": "generated 051 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "090fbec7f5b2f40051efb36cf7529cdedd385845dd1a99e2facde78503f940d6970736c27f00f042fb301a7994489ff8040f81989724019357fce2345af3c10fd5f272bc449edcd2df9c7b9611388bd58a96f3e48a988102dc"
+      },
+      {
+       "hex": "336bb70a9a1481cefe24479338786e799c2f100af196b65130819ed2399c04d76b68c3778be453e3372a32d0a041296a4f81ea7fc7b6b2a0263ee83ec426bccdd351c9e4fd91409f04d97e21fab507baf2a4888b51c6930f15536f1ea200d4771d11892ec01b68cf02f8db982acc6dc3b37f40bb423f49fa81"
+      }
+     ],
+     "expect": {
+      "result": "96ee11c8f612a0b0aa5b4db6254ba6ea907e816394f64f57a834aeeafd04f7ee"
+     }
+    },
+    {
+     "name": "generated 052 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "aa64cc0eb6c42ca5d0f812a3dd27aeb88756949e0687c0e9d7d3ea149f9b3d5f124dd82f18b29419764d55233137f203e57a8f62328e46c3288c2b4aab1c911d2667773777fe0965fe0d143e62830e3e9890ab0e8358ee23877f40d2abd0ef9049ba2fe017f04bc6cece5f0cda4b030eadcfec175a6914826b7ba25b725fb6"
+      },
+      {
+       "hex": "2c62db6fba8f9b564ec40e9199abf8f5057a68be5c4f1c189fc8b10a7fbe806e"
+      }
+     ],
+     "expect": {
+      "result": "0c732e4a0b2ff9c614ed92a044a14d27216427480832bdadcd451f071e7a2e9e"
+     }
+    },
+    {
+     "name": "generated 053 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "af18a6027af5c99b04b09fb3d58593d5b720b193e20c10f72ece0dd8fecb770de5562f4fda4fbccd1d32bd60f0754c3bafa2774accd9b1c1929c55f1ea8d5c4c5f6e61641b211022d042ca246b"
+      },
+      {
+       "hex": "a4a2f0fc80a19b15c00052dff6b813b5dbcdc028465c877dc89fb03aba04502554ae690812a50e5328670ac66fee272ec07a75ffff4789d3"
+      }
+     ],
+     "expect": {
+      "result": "d515354e11a0db65c06a23d553941c8f4a9899d8c8689d0f0250fd8aefce6b8f"
+     }
+    },
+    {
+     "name": "generated 054 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "749661e610ff401033a9582838a61293a67ab02850dbf0f10e34a9fa559797a72774139df7941bb09023a519c4549123dcc3d682d8a25fb4a8d77e75bc"
+      },
+      {
+       "hex": "f37dd1a5a840b116741f26833c1e5ebe30180023af9bceab9d1acc7b89c7807e8310d8aa8fe3068cab238d27a18fb268d100b22a03c39dc6a096c4504cec5216cd7643ed4a1c851d9032b35862d0e3a5dfa493a876061239f34e304e031083dd6cfa10f4d94fc450700220d16c700fbf7003801ff0ef14d75c78c84cd3f7a7bd62309f1e3f"
+      }
+     ],
+     "expect": {
+      "result": "041a3faa57f1811e3e33d353c67806b9adbff07c6dfd259329935db1c9b0d670"
+     }
+    },
+    {
+     "name": "generated 055 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "a45f162d9c3a4c1971c265476d4b25260dc2e5a1171f"
+      },
+      {
+       "hex": "cfd42ae238d97028eaa79a6d486645afe5acbadf8581f5db1a5b12a8afbbf5d31c65b4858b1f6843aec89ae95444c1a9f645ad885073149f14a65d3979c644cede41de8e77d011a7414b9b31ff3203f08c7c694b43b41f9842426a5ff5c85359be7bdcd0d7976230326460cf40f92aafacf6b33f1e46ba5237e938"
+      }
+     ],
+     "expect": {
+      "result": "e44840da9330d0b19bc206504ff7ce699a117bec793344540e32a8225b81a576"
+     }
+    },
+    {
+     "name": "generated 056 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "979a57229318a35db0cb29a4eb70f3cfad6dd616045ee0665b0e3f8b2154d0a7917f2df5405d520f300b16d04d271ecf347fa55314f86d37b5f1b37416ea370c7d6883a22dff082865cea00aa2e07baef571be167439418ae62bc63fc6120f7402054bd99471f27e45262ed370035bcf2072bc8c07ebabb1593be83e62e38906f6ff"
+      },
+      {
+       "hex": "f56ed1e70f2ded24b53240a9cf18b16801ff130e59085e97b1eee19c3293b697c34988b6373c4138200c2f604e83a8aaaad68a45c90f9a14c039d54cac460ed68b431155274b1390405bc66851a4ea3fefe1587789bf814e23c75712bab3b3167ff36be419f518d69ff07784064315367ee0842651ea785d44e8505a632228142cb9e8be"
+      }
+     ],
+     "expect": {
+      "result": "bdf999aa95b5a2392f8ec003557395fbef01cb744728a97e4df2ad13cf09b624"
+     }
+    },
+    {
+     "name": "generated 057 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "8f875784bfa8d6fc4b6a32bfe37e6100d80d3d7df6c21b28c66e901ee3116e50be17ca726914bd634dea719b864054b0d2d1478bc290f80a809a6aa02ceb320161750abb563fc76628bf9413298b18f1f4bbd46e859e3dba72e349130c80504d7d62a655fa63b7fe4cb7c828bf63511e1061c9bff3f4b4d7b59a339ece70"
+      },
+      {
+       "hex": "8b4929e4554b8bc818b4fee4fb5ae8c60744f127e6193739cd49d0bec18e04fa661b14037e4d"
+      }
+     ],
+     "expect": {
+      "result": "53c8472fa0d86841263e1c2ceffde1bf5a3d0b7c464ae3dc8d220539d14b80a0"
+     }
+    },
+    {
+     "name": "generated 058 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "c18c73a511b7b9d87434c528fabee0a2f1980769f88e540aae78447cc3d166d8707053b602414f21ae5219403fc64fc7d0e688d6cfc83347cafca51467b3309e5ea3aa6fdebd4ab39623b675ff235ae69874e9e36cb3e26d89e8082efa3725fef068cd5076c5d734672598a46c452bc4354df55efa4b2463fcb52a6f04eab742fc9068fea1167a51cdb950"
+      },
+      {
+       "hex": "c920dcc2fccac7fa471cdb90b55becdd7561539b90ac8242de3c166a000b39f53fccd6c2"
+      }
+     ],
+     "expect": {
+      "result": "67fe5d8cd8ebe3080d9291b06ca45623f14f52055e2a92c400a163969b94f9c6"
+     }
+    },
+    {
+     "name": "generated 059 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "2bdc3167a05a9a84d4149b35df707441264a2780b423a85acb218f4d0e707184d44051b2869c435d269bdfedc0c37b913230bb"
+      },
+      {
+       "hex": "2989942d22074c48a0eb9f03a969a07e4c978434c36a57d3bc27de0fd2107891b4989f9be599d086f2e7415b47b674d097e070846166467e68f58fab395deb63a81a82564fe86542ca770da8e37702041d4a"
+      }
+     ],
+     "expect": {
+      "result": "0724e304be5aa6c2aebd6b71f3dceed55deae19fc4982d4011e0651e43a377f6"
+     }
+    },
+    {
+     "name": "generated 060 hmac",
+     "fn": "hmacSha256Hex",
+     "args": [
+      {
+       "hex": "31af98caf94aeeb109f0e7f10c236838305a7e4770b5311a1bfffd2a8238a506"
+      },
+      {
+       "hex": "6b2875f0c3b8d1ad8d17976e98b01cae8dc921"
+      }
+     ],
+     "expect": {
+      "result": "dd7229f8af2126a34e485d3b75b560b86eb52c25064d5c6e2178e40831e1c6f3"
+     }
+    },
+    {
+     "name": "generated 061 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "90eccb3d39709abf86b289981b8e509c.c4856a5af1dbf175bec7c375d611c83609da9335a4191c8959d01bb032e2dd28",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 062 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "7e0cba7643d5a689b9806688ef4c1681.6a1be303ed4bfc509664d5caa0b81c92ce89f9df0df50a25b3880ef0f62e6b67",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 063 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "e537cd9932b76a22e846929881a01ae4.3db59d0cab220bacebe05a40bb58a0a48337475da1de463ef5acd2a1cf47e7ad",
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 064 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "a6e90c511801e8f83816963a20be7d8e.de56b5234fca64dbc72e8ced8b302b1d2f88d2dae69cc3dc0a5454b9598ced2f",
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 065 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "14e00f95f64d929ea81288d0847debd7.79fa5c81dd68dfab8f87966be23742a5becf6cff547febad92884cf05bc424b8",
+      "s1"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 066 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "7728a8a46e9615d0e598330327378d08.f076034ae94955b255506941de56014e45b7cb3ae52bff53ea78821f5614881e",
+      null
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "generated 067 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "966b43149bdd552110150c4310bb02de.65279fd62a79485aed8b7a94a5e4d63cfdb56d446d6da137961c3be625817e24",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 068 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "83ecc3a43b2bd4de9869d6f9d5a0a074.69da932b99c9b5551129442a70509e468c38e9c7c9d5032f641ed942d62e7a25",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 069 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "203168179177abdbf2599f44d5f4dbcf.15ffbb0beae9b23b5b1c88c07b560bc430560aff3607c7271b3cace9c79537c5",
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 070 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "b5bbbb4ed360524cc3b214806d34bb57.98aad37050a0a9071fee32538000b0fb7df8056aa5bf4820b8b74a9f51207d06",
+      "s1"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 071 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "ede23e011f6bf872421a7dfbe4de4f7b.893adca7144a91e32d4c8e992c4ed4d9f0c6a1997cf47d252dddd70ff5e230fd",
+      "s1"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 072 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "3064ddcb37374efdc1e65111a29342ba.64c9470e16de1834748f3b023d57fad523ac80612ca976b8df78db0548d34c11",
+      null
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 073 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "fac858ef2058cfd3659b9afc5f3baebd.55466ee89e81a50051fff9fdf4673fa5030d5bb598f29649f7db9c05a0ca0a60",
+      "s1"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 074 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "7635051609968ad9324e64f308b54949.c909c0c29b26de1882e7e231fb1b88a642cee3d07649ee7396d067b0123cdd1d",
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 075 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "d3f043d5ccd5186a7899f153b155380b.e40135dfe551256f0d4dc3633ae46ce6f8004b094fc8dd81518c88200c3795d6",
+      "caf\u00e9"
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 076 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "b43d27208d666db0edbbd17da4c49fb4.3b4084d30b794e7ce35b9e9c8d1369f68eb44bd4fb0ecfb3d8470b21e6afddda",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 077 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "ed7ca964f7e8bac5ccfe61df9473a5ec.18dfa22cc53bd81da069cd5d4200f150d3c1cd25d530ef6dee5dd94b35925434",
+      "s1"
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "generated 078 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "0208d8fb5764c6cf5f6f9c62d0234bb8.e616c9ac0c3d983a4aa4c97fff950bd9b45cb5d9a17a1af7e64cd9d96047089b",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 079 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "c5c805823fb319cfa375fed1b42e37e3.249658078fc713a4507964300fcf355b5290723008bbad359672513c257eab27",
+      "s1"
+     ],
+     "expect": {
+      "result": true
+     }
+    },
+    {
+     "name": "generated 080 csrf verify",
+     "fn": "verifyCsrfToken",
+     "args": [
+      "0123456789abcdef0123456789abcdef",
+      "bdd93b928dce0198adb8e666a765bec9.a3055695edbc1ff038f0ce2227184039977bba89631eb794d0c775297c3188a6",
+      ""
+     ],
+     "expect": {
+      "result": false
+     }
+    },
+    {
+     "name": "generated 081 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "a[::1]:443",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 082 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 083 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "https://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 084 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "//a ",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 085 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "example.comevil.net",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 086 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "a\\ ?q=/",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 087 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "%2fexample.com",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 088 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "//",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 089 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "example.coma:443",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 090 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "a%2f\\",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 091 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "example.com[::1]",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 092 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "a",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 093 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "%2f// ",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 094 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "%2f[::1]evil.net:443",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 095 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "https://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 096 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\https://#xhttps://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 097 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 098 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\[::1]",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 099 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\t",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 100 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "#xahttp://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 101 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "#x?q=/example.com[::1]",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 102 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "%2fhttp://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 103 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "#x[::1][::1]",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 104 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "a#x#x//",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 105 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "@/evil.net#x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 106 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      " /",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 107 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "https://:443:443example.com",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 108 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "https://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 109 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\evil.net",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 110 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "https://\texample.coma",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 111 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "?q=/",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 112 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\t@http://#x",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 113 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "http://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 114 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "@example.com:443 ",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 115 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "example.com%2f/",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 116 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "//\\http://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 117 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "[::1]aexample.com@",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 118 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\\\?q=/http://",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 119 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "evil.netevil.net@\t",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 120 redirect",
+     "fn": "safeRedirect",
+     "args": [
+      "\\ a",
+      {
+       "allowedHosts": [
+        "example.com",
+        "[::1]"
+       ]
+      }
+     ],
+     "expect": {
+      "result": "/"
+     }
+    },
+    {
+     "name": "generated 121 password",
+     "fn": "checkPassword",
+     "args": [
+      "\u00e911anaana1",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "missing_symbol",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 122 password",
+     "fn": "checkPassword",
+     "args": [
+      "Aa a1x\u00e91AxAanaanax",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 123 password",
+     "fn": "checkPassword",
+     "args": [
+      "anaxx",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": false,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 124 password",
+     "fn": "checkPassword",
+     "args": [
+      "ana1",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short",
+       "missing_symbol",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 125 password",
+     "fn": "checkPassword",
+     "args": [
+      "A Aa\u00e9ana!x1a",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": true,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 126 password",
+     "fn": "checkPassword",
+     "args": [
+      "1!x1x\u00e9A !1x",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "generated 127 password",
+     "fn": "checkPassword",
+     "args": [
+      "!aana\u00e9\u00e9a1anaa!anaA1a",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 128 password",
+     "fn": "checkPassword",
+     "args": [
+      "1 \u00e9\u00e9!1!a1",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": false,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "generated 129 password",
+     "fn": "checkPassword",
+     "args": [
+      "1\u00e9!",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": true,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short"
+      ]
+     }
+    },
+    {
+     "name": "generated 130 password",
+     "fn": "checkPassword",
+     "args": [
+      "a !ana1 ",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": false,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 131 password",
+     "fn": "checkPassword",
+     "args": [
+      "anaaaanaaaanaxA1x",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": true,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "missing_symbol",
+       "repeated_characters",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 132 password",
+     "fn": "checkPassword",
+     "args": [
+      "A\u00e9a!A !AxaanaA",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "missing_digit",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 133 password",
+     "fn": "checkPassword",
+     "args": [
+      "\u00e91xa 1",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": false,
+       "maxRepeat": 2,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "generated 134 password",
+     "fn": "checkPassword",
+     "args": [
+      "a!a1a!x\u00e9anaa\u00e9A!ana",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 135 password",
+     "fn": "checkPassword",
+     "args": [
+      "anaanaa aanaanaxanaa!ana",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "missing_digit",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 136 password",
+     "fn": "checkPassword",
+     "args": [
+      "a1x!! anax",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 137 password",
+     "fn": "checkPassword",
+     "args": [
+      "ana xx1aa\u00e9\u00e9anaana",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_long",
+       "contains_user_input"
+      ]
+     }
+    },
+    {
+     "name": "generated 138 password",
+     "fn": "checkPassword",
+     "args": [
+      "",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short",
+       "missing_symbol"
+      ]
+     }
+    },
+    {
+     "name": "generated 139 password",
+     "fn": "checkPassword",
+     "args": [
+      "1 x!",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": true,
+       "requireSymbol": true,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": [
+       "too_short"
+      ]
+     }
+    },
+    {
+     "name": "generated 140 password",
+     "fn": "checkPassword",
+     "args": [
+      "ax\u00e9 A\u00e9a1 Ax1!\u00e9",
+      {
+       "minLength": 6,
+       "maxLength": 14,
+       "requireDigit": false,
+       "requireSymbol": false,
+       "maxRepeat": 0,
+       "userInputs": [
+        "ana"
+       ]
+      }
+     ],
+     "expect": {
+      "result": []
+     }
+    },
+    {
+     "name": "generated 141 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 4,
+       "refillTokens": 2,
+       "refillIntervalMs": 300
+      },
+      [
+       345,
+       395,
+       628,
+       894,
+       1123,
+       1166,
+       1296,
+       1433,
+       1447,
+       1519,
+       1573,
+       1665
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 150
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 58
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 142 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1000
+      },
+      [
+       209,
+       330,
+       478,
+       777,
+       833,
+       853,
+       1180,
+       1250,
+       1315,
+       1319,
+       1641,
+       1873
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 670
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 522
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 223
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 167
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 147
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 750
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 685
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 681
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 359
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 127
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 143 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 1,
+       "refillTokens": 2,
+       "refillIntervalMs": 300
+      },
+      [
+       9,
+       333,
+       417,
+       577,
+       592,
+       843,
+       1193,
+       1284,
+       1601,
+       1867,
+       2036,
+       2221
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 216
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 56
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 41
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 209
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 34
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 115
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 144 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 3,
+       "windowMs": 100
+      },
+      [
+       271,
+       645,
+       699,
+       907,
+       1065,
+       1313,
+       1545,
+       1883,
+       1884,
+       2095,
+       2416,
+       2760
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 145 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 1,
+       "refillIntervalMs": 300
+      },
+      [
+       282,
+       440,
+       624,
+       1006,
+       1042,
+       1277,
+       1369,
+       1516,
+       1592,
+       1676,
+       2018,
+       2361
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 113
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 190
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 106
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 146 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 3,
+       "windowMs": 100
+      },
+      [
+       353,
+       462,
+       723,
+       936,
+       1195,
+       1310,
+       1693,
+       2045,
+       2241,
+       2250,
+       2556,
+       2764
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 147 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 1,
+       "refillIntervalMs": 1000
+      },
+      [
+       20,
+       332,
+       721,
+       1032,
+       1146,
+       1401,
+       1669,
+       2053,
+       2440,
+       2826,
+       3113,
+       3380
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 874
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 619
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 351
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 580
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 194
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 640
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 148 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 2,
+       "windowMs": 500
+      },
+      [
+       200,
+       234,
+       422,
+       685,
+       926,
+       937,
+       1270,
+       1306,
+       1667,
+       1788,
+       2011,
+       2232
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 78
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 63
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 149 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 4,
+       "refillTokens": 2,
+       "refillIntervalMs": 300
+      },
+      [
+       4,
+       135,
+       303,
+       386,
+       553,
+       876,
+       996,
+       1350,
+       1491,
+       1796,
+       1851,
+       2090
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 3,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 150 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 3,
+       "windowMs": 100
+      },
+      [
+       96,
+       377,
+       463,
+       560,
+       903,
+       1110,
+       1251,
+       1472,
+       1824,
+       2154,
+       2175,
+       2336
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 151 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 1,
+       "refillIntervalMs": 1000
+      },
+      [
+       216,
+       278,
+       355,
+       455,
+       831,
+       1223,
+       1506,
+       1657,
+       1854,
+       2181,
+       2256,
+       2329
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 761
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 385
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 710
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 559
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 362
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 35
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 887
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 152 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 1,
+       "windowMs": 1000
+      },
+      [
+       167,
+       352,
+       542,
+       917,
+       1276,
+       1292,
+       1363,
+       1714,
+       2002,
+       2156,
+       2426,
+       2523
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 648
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 458
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 83
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 708
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 637
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 286
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 844
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 574
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 477
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 153 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 1,
+       "refillIntervalMs": 100
+      },
+      [
+       314,
+       440,
+       668,
+       713,
+       851,
+       1215,
+       1263,
+       1288,
+       1479,
+       1739,
+       1871,
+       2228
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 154 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 2,
+       "windowMs": 500
+      },
+      [
+       396,
+       461,
+       791,
+       1125,
+       1516,
+       1710,
+       1976,
+       2163,
+       2241,
+       2556,
+       2937,
+       3311
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 24
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 155 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 2,
+       "refillIntervalMs": 300
+      },
+      [
+       380,
+       445,
+       772,
+       886,
+       1022,
+       1044,
+       1155,
+       1424,
+       1501,
+       1697,
+       1752,
+       1769
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 28
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 156 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 3,
+       "windowMs": 100
+      },
+      [
+       362,
+       480,
+       728,
+       1005,
+       1187,
+       1475,
+       1764,
+       1892,
+       2042,
+       2407,
+       2508,
+       2878
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 157 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 3,
+       "refillTokens": 2,
+       "refillIntervalMs": 100
+      },
+      [
+       186,
+       343,
+       439,
+       817,
+       902,
+       1035,
+       1140,
+       1490,
+       1664,
+       1891,
+       2210,
+       2511
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 158 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 2,
+       "windowMs": 1000
+      },
+      [
+       318,
+       541,
+       675,
+       1014,
+       1090,
+       1213,
+       1257,
+       1330,
+       1344,
+       1530,
+       1763,
+       1875
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 325
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 787
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 743
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 670
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 656
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 470
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 237
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 125
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 159 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "tokenBucket",
+      {
+       "capacity": 2,
+       "refillTokens": 2,
+       "refillIntervalMs": 300
+      },
+      [
+       275,
+       410,
+       504,
+       657,
+       670,
+       759,
+       988,
+       1286,
+       1491,
+       1584,
+       1707,
+       2000
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 71
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 198
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 84
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "generated 160 ratelimit",
+     "fn": "simulateRateLimit",
+     "args": [
+      "fixedWindow",
+      {
+       "limit": 3,
+       "windowMs": 500
+      },
+      [
+       384,
+       538,
+       575,
+       776,
+       915,
+       1269,
+       1399,
+       1589,
+       1718,
+       1957,
+       2226,
+       2516
+      ]
+     ],
+     "expect": {
+      "result": [
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": false,
+        "remaining": 0,
+        "retryAfter": 85
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 1,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 0,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       },
+       {
+        "allowed": true,
+        "remaining": 2,
+        "retryAfter": 0
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

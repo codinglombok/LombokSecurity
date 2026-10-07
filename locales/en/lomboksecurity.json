@@ -1,0 +1,8 @@
+{
+  "lomboksecurity.error.invalid_secret": "The secret must be at least 16 bytes.",
+  "lomboksecurity.error.invalid_nonce": "The nonce must be 32 lowercase hexadecimal digits.",
+  "lomboksecurity.error.invalid_header": "A header name or value is invalid.",
+  "lomboksecurity.error.invalid_csp": "A Content Security Policy directive or source is invalid.",
+  "lomboksecurity.error.invalid_option": "An option or configuration value is invalid.",
+  "lomboksecurity.error.invalid_input": "An argument has the wrong type or encoding."
+}

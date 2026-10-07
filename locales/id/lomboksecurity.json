@@ -1,0 +1,8 @@
+{
+  "lomboksecurity.error.invalid_secret": "Secret harus paling sedikit 16 byte.",
+  "lomboksecurity.error.invalid_nonce": "Nonce harus 32 digit heksadesimal huruf kecil.",
+  "lomboksecurity.error.invalid_header": "Nama atau nilai header tidak sah.",
+  "lomboksecurity.error.invalid_csp": "Direktif atau sumber Content Security Policy tidak sah.",
+  "lomboksecurity.error.invalid_option": "Opsi atau nilai konfigurasi tidak sah.",
+  "lomboksecurity.error.invalid_input": "Tipe atau encoding argumen salah."
+}
