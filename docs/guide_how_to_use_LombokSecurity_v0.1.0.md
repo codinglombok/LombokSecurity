@@ -1,29 +1,29 @@
 # Guide How To Use LombokSecurity v0.1.0
 
-## Instalasi
+## Installation
 
-Belum terbit. Setelah rilis: `npm install lomboksecurity` atau `cargo add lomboksecurity`. Sebelum itu, bangun dari repo (lihat `CONTRIBUTING.md`).
+Not published yet. After the release: `npm install lomboksecurity` or `cargo add lomboksecurity`. Until then, build from the repository (see `CONTRIBUTING.md`).
 
-## Konsep dasar
+## Basic concepts
 
-1. Semua fungsi murni. Keacakan (nonce CSRF) dan waktu (rate limiter) dipasok pemanggil; di TypeScript `generateCsrfToken` memakai `crypto.getRandomValues`.
-2. Secret disimpan di konfigurasi, paling sedikit 16 byte (disarankan 32 byte acak).
-3. Fungsi verifikasi mengembalikan boolean tanpa alasan; fungsi konfigurasi melempar galat dengan `code`.
+1. All functions are pure. Randomness (the CSRF nonce) and time (the rate limiter) are supplied by the caller; in TypeScript, `generateCsrfToken` uses `crypto.getRandomValues`.
+2. The secret lives in configuration and is at least 16 bytes (32 random bytes recommended).
+3. Verification functions return a boolean without a reason; configuration functions throw an error with a `code`.
 
-## Contoh
+## Example
 
 ```ts
 import { generateCsrfToken, verifyCsrfToken } from "lomboksecurity";
 
-// saat merender formulir
+// when rendering the form
 const token = generateCsrfToken(secret, session.id);
-// saat menerima POST
+// when receiving the POST
 if (!verifyCsrfToken(secret, body._csrf, session.id)) return reply(403);
 ```
 
 ## Recipes
 
-### CSP tervalidasi
+### A validated CSP
 
 ```ts
 import { buildCsp, securityHeaders } from "lomboksecurity";
@@ -32,7 +32,7 @@ const csp = buildCsp({ "default-src": ["'self'"], "img-src": ["'self'", "data:"]
 const headers = securityHeaders({ "Content-Security-Policy": csp });
 ```
 
-### Redirect setelah login
+### A redirect after login
 
 ```ts
 import { safeRedirect } from "lomboksecurity";
@@ -48,24 +48,24 @@ store.set(ip, r.state);
 if (!r.allowed) return reply(429, { "Retry-After": String(Math.ceil(r.retryAfter / 1000)) });
 ```
 
-Dengan `{ limit: 2, windowMs: 60000 }` dan permintaan pada 0, 1000, 2000 ms, permintaan ketiga ditolak dengan `retryAfter` 58000.
+With `{ limit: 2, windowMs: 60000 }` and requests at 0, 1000 and 2000 ms, the third request is rejected with `retryAfter` 58000.
 
-### Pemeriksaan kata sandi saat pendaftaran
+### Password check at registration
 
 ```ts
 import { checkPassword } from "lomboksecurity";
-const problems = checkPassword(pw, { userInputs: [email, username], extraBlocklist: ["namaaplikasi2026"] });
+const problems = checkPassword(pw, { userInputs: [email, username], extraBlocklist: ["appname2026"] });
 ```
 
 ## Common pitfalls
 
-- Nonce CSRF di port Rust harus berasal dari sumber acak yang aman (misalnya `getrandom` di aplikasi), bukan dari waktu.
-- Ikat token CSRF ke sesi lewat `context`; token tanpa konteks dapat dipakai ulang lintas sesi.
-- `safeRedirect` membandingkan host persis; subdomain tidak otomatis diizinkan.
-- `retryAfter` dalam milidetik; header HTTP `Retry-After` dalam detik.
-- `checkPassword` bawaan tidak mewajibkan komposisi (sesuai NIST SP 800-63B); aktifkan `require*` hanya bila kebijakan organisasi menuntut.
-- `escapeHtml` untuk teks dan atribut berkutip; bukan untuk konteks JavaScript, CSS, atau URL.
+- In the Rust port, the CSRF nonce must come from a secure random source (for example `getrandom` in the application), not from the time.
+- Bind the CSRF token to the session through `context`; a token without context can be reused across sessions.
+- `safeRedirect` compares the host exactly; subdomains are not allowed automatically.
+- `retryAfter` is in milliseconds; the HTTP header `Retry-After` is in seconds.
+- By default, `checkPassword` does not require composition (in line with NIST SP 800-63B); enable `require*` only when the organization's policy demands it.
+- `escapeHtml` is for text and quoted attributes; not for JavaScript, CSS or URL contexts.
 
-## Lihat juga
+## See also
 
 README, SPEC_, API_.

@@ -1,12 +1,12 @@
 # Structure Repo LombokSecurity v0.1.0
 
-## 1. Struktur folder
+## 1. Folder structure
 
 ```
 LombokSecurity/
   README.md  CHANGELOG.md  SECURITY.md  CONTRIBUTING.md  version.txt
   LICENSE-APACHE  LICENSE-MIT  .gitignore  .gitattributes
-  docs/            10 dokumen standar + TECH_DEBT.md (masterplan_ dan architecture_ tidak di-commit)
+  docs/            10 standard documents + TECH_DEBT.md (masterplan_ and architecture_ are not committed)
   vectors/         lomboksecurity-vectors-v1.json  README.md
   locales/         en/lomboksecurity.json  id/lomboksecurity.json
   rust/            Cargo.toml  src/{lib.rs,crypto.rs,json.rs}  tests/vectors.rs  LICENSE-*
@@ -15,21 +15,21 @@ LombokSecurity/
   .github/workflows/  ci.yml
 ```
 
-## 2. Konvensi penamaan
+## 2. Naming conventions
 
-Dokumen: `<jenis>_LombokSecurity_v<semver>.md`. Paket: npm `lomboksecurity`, crates.io `lomboksecurity`. Go (rencana): `github.com/codinglombok/lomboksecurity/go`.
+Documents: `<kind>_LombokSecurity_v<semver>.md`. Packages: npm `lomboksecurity`, crates.io `lomboksecurity`. Go (planned): `github.com/codinglombok/lomboksecurity/go`.
 
-## 3. Berkas wajib di root
+## 3. Required root files
 
-README, LICENSE-APACHE, LICENSE-MIT, CHANGELOG, SECURITY, CONTRIBUTING, `.gitignore` dengan tiga baris ADR-024, `version.txt`.
+README, LICENSE-APACHE, LICENSE-MIT, CHANGELOG, SECURITY, CONTRIBUTING, `.gitignore` with the three ADR-024 lines, `version.txt`.
 
-## 4. Struktur per port
+## 4. Structure per port
 
-| Port | Isi |
+| Port | Contents |
 |---|---|
-| `rust/` | Satu crate `lomboksecurity`; fitur `std` (bawaan); `json.rs` adalah parser dan serializer JSON internal yang keluarannya setara `JSON.stringify`; `tests/` dikecualikan dari paket crates.io karena membaca `../vectors` |
-| `typescript/` | `src/security.ts` (fungsi kontrak dan `call`), `src/crypto.ts` (SHA-1, SHA-256, HMAC, PBKDF2, base64, hex, UTF-8), `src/index.ts`; `test/` dikompilasi ke `dist-test/` |
+| `rust/` | One crate `lomboksecurity`; feature `std` (default); `json.rs` is the internal JSON parser and serializer whose output equals `JSON.stringify`; `tests/` is excluded from the crates.io package because it reads `../vectors` |
+| `typescript/` | `src/security.ts` (contract functions and `call`), `src/crypto.ts` (SHA-1, SHA-256, HMAC, PBKDF2, base64, hex, UTF-8), `src/index.ts`; `test/` is compiled to `dist-test/` |
 
-## 5. Catatan
+## 5. Notes
 
-`LICENSE-*` di `rust/` adalah salinan dari root agar ikut paket crate. `typescript/` menyalin README dan LICENSE saat `npm pack` (skrip `prepack`/`postpack`). Fungsi `call(fn, args)` di port Rust adalah titik masuk dinamis yang dipakai runner vector dan host FFI.
+`LICENSE-*` in `rust/` are copies of the root files so that they ship in the crate. `typescript/` copies the README and the licenses during `npm pack` (scripts `prepack`/`postpack`). The function `call(fn, args)` in the Rust port is the dynamic entry point used by the vector runner and by FFI hosts. Stray backup files (`*.bak`) must never be committed.

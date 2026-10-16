@@ -1,30 +1,30 @@
 # Map LombokSecurity v0.1.0
 
-## 1. Posisi dependensi
+## 1. Dependency position
 
-L0. Posisi cluster dan nomor katalog mengikuti dokumen induk ekosistem v3.6 (tidak di-commit, ADR-024). Tidak memiliki dependensi Lombok wajib.
+L0. The cluster position and catalog number follow the ecosystem parent document v3.6 (not committed, ADR-024). No required Lombok dependencies.
 
-## 2. Contoh dependen di ekosistem
+## 2. Example dependents in the ecosystem
 
-Bagian ini satu-satunya tempat nama aplikasi atau framework boleh muncul (ADR-019). Ini ilustrasi, bukan kepemilikan; siapa pun dapat memakai LombokSecurity.
+This section is the only place where application or framework names may appear (ADR-019). It is an illustration, not ownership; anyone can use LombokSecurity.
 
-| Pemakai | Jenis | Status integrasi | Keterangan |
+| Dependent | Kind | Integration status | Notes |
 |---|---|---|---|
-| LombokClarion v3 | Framework | rencana (F7) | Menggantikan logika CSRF, header keamanan, dan rate limit di paket security internal v2 |
-| LombokAuth | Library | rencana (opsional) | Kebijakan kata sandi saat pendaftaran |
-| LombokServer | Library L4 | rencana | Header keamanan dan rate limiting |
-| LombokDocFlow | Aplikasi | rencana | Redirect aman dan CSRF |
+| LombokClarion v3 | Framework | planned (F7) | Replaces the CSRF, security-header and rate-limit logic of the internal v2 security package |
+| LombokAuth | Library | planned (optional) | Password policy at registration |
+| LombokServer | L4 library | planned | Security headers and rate limiting |
+| LombokDocFlow | Application | planned | Safe redirects and CSRF |
 
-Integrasi opsional ke LombokCache (penyimpanan status rate limiter) dan LombokLog (jejak audit pelanggaran) belum diimplementasikan.
+Optional integration with LombokCache (rate limiter state storage) and LombokLog (audit trail of violations) is not implemented.
 
-## 3. Bergantung pada
+## 3. Depends on
 
-Tidak ada.
+Nothing.
 
-## 4. Jalur kontrak normatif
+## 4. Normative contract path
 
-`docs/SPEC_LombokSecurity_v0.1.0.md` -> `vectors/lomboksecurity-vectors-v1.json` (sha256 di SPEC) -> runner `rust/tests/vectors.rs` dan `typescript/test/vectors.test.ts`.
+`docs/SPEC_LombokSecurity_v0.1.0.md` -> `vectors/lomboksecurity-vectors-v1.json` (sha256 in SPEC) -> runners `rust/tests/vectors.rs` and `typescript/test/vectors.test.ts`.
 
-## 5. Peta folder
+## 5. Folder map
 
-Lihat `structure_repo_LombokSecurity_v0.1.0.md`.
+See `structure_repo_LombokSecurity_v0.1.0.md`.

@@ -1,25 +1,25 @@
-# Kebijakan Keamanan
+# Security Policy
 
-## Versi yang didukung
+## Supported versions
 
-| Versi | Dukungan |
+| Version | Support |
 |---|---|
-| 0.1.x | Perbaikan keamanan |
+| 0.1.x | Security fixes |
 
-## Melaporkan kerentanan
+## Reporting a vulnerability
 
-Gunakan **GitHub Private Vulnerability Reporting** pada repo ini (tab Security, "Report a vulnerability"). Jangan membuka issue publik untuk kerentanan.
+Use **GitHub Private Vulnerability Reporting** on this repository (Security tab, "Report a vulnerability"). Do not open a public issue for a vulnerability.
 
-- Respons awal: paling lama 48 jam.
-- Perbaikan untuk temuan kritis: target 7 hari.
-- Pengungkapan dikoordinasikan dengan pelapor.
+- Initial response: within 48 hours.
+- Fix for critical findings: 7 days (target).
+- Disclosure is coordinated with the reporter.
 
-## Cakupan
+## Scope
 
-Dalam cakupan: seluruh fungsi yang diekspor, khususnya pemalsuan token CSRF, kebocoran waktu pada perbandingan, header yang dapat disisipi baris baru, pengalihan terbuka yang lolos `safeRedirect`, teks yang lolos `escapeHtml`, dan panic atau waktu eksekusi tak terbatas.
+In scope: every exported function, in particular CSRF token forgery, timing leaks in comparisons, headers that can have a newline injected, open redirects that get past `safeRedirect`, text that gets past `escapeHtml`, and panics or unbounded execution time.
 
-Di luar cakupan: sumber keacakan yang dipasok aplikasi, penyimpanan status rate limiter di luar proses, dan konfigurasi server web.
+Out of scope: sources of randomness supplied by the application, out-of-process storage of rate limiter state, and web server configuration.
 
-## Model ancaman ringkas
+## Short threat model
 
-Lihat bagian Keamanan pada `docs/SPEC_LombokSecurity_v0.1.0.md`.
+See section 10 of `docs/SPEC_LombokSecurity_v0.1.0.md`.

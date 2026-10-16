@@ -2,40 +2,40 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue)](LICENSE-APACHE)
 
-Primitif keamanan web tanpa dependensi: **SHA-256 dan HMAC**, **token CSRF** bertanda tangan, **header keamanan** dan **CSP**, **escape HTML**, **perlindungan open redirect**, **kebijakan kata sandi** gaya NIST SP 800-63B, dan **rate limiting** (fixed window dan token bucket). Fungsi murni: keacakan dan waktu dipasok pemanggil. Hasilnya identik di setiap port.
+Dependency-free web security primitives: **SHA-256 and HMAC**, signed **CSRF tokens**, **security headers** and **CSP**, **HTML escaping**, **open-redirect protection**, an NIST SP 800-63B style **password policy**, and **rate limiting** (fixed window and token bucket). Pure functions: randomness and time are supplied by the caller. The output is identical in every port.
 
 Part of the [Lombok Ecosystem](https://github.com/codinglombok).
 
-## Mengapa library ini?
+## Why this library?
 
-Kesalahan keamanan web jarang berasal dari algoritma yang rumit; biasanya dari detail kecil: perbandingan token yang bocor lewat waktu, header yang dapat disisipi baris baru, redirect ke `//evil.example.net` yang dianggap jalur lokal, atau CSP yang disusun dari string tanpa validasi. LombokSecurity menetapkan detail itu secara normatif dan membuktikannya dengan vector bersama, termasuk vector standar FIPS 180-4 dan RFC 4231.
+Web security mistakes rarely come from complicated algorithms; they usually come from small details: a token comparison that leaks through timing, a header that can have a newline injected, a redirect to `//evil.example.net` that is treated as a local path, or a CSP assembled from strings without validation. LombokSecurity specifies those details normatively and proves them with shared vectors, including the standard vectors of FIPS 180-4 and RFC 4231.
 
-Skenario pemakaian:
+Usage scenarios:
 
-- **Layanan web dan API**: token CSRF terikat sesi, header keamanan bawaan, CSP tervalidasi, redirect setelah login yang aman.
-- **Formulir pendaftaran**: pemeriksaan kata sandi berbasis panjang dan daftar kata sandi umum.
-- **Gateway dan API publik**: rate limiter fixed window atau token bucket dengan status yang dapat disimpan di mana saja.
-- **Serverless dan edge**: tanpa dependensi dan tanpa I/O.
-- **Perangkat tertanam**: inti Rust `no_std + alloc` dengan HMAC-SHA256 sendiri.
+- **Web services and APIs**: session-bound CSRF tokens, default security headers, a validated CSP, and safe post-login redirects.
+- **Registration forms**: password checks based on length and a list of common passwords.
+- **Gateways and public APIs**: a fixed-window or token-bucket rate limiter whose state can be stored anywhere.
+- **Serverless and edge**: no dependencies and no I/O.
+- **Embedded devices**: a `no_std + alloc` Rust core with its own HMAC-SHA256.
 
-Contoh dependen lain di ekosistem Lombok dicantumkan di `docs/map_LombokSecurity_v0.1.0.md`.
+Other dependents in the Lombok Ecosystem are listed in `docs/map_LombokSecurity_v0.1.0.md`.
 
-## Fitur
+## Features
 
-Setiap fitur di bawah ini dicakup vector di `vectors/` dan test TypeScript.
+Every feature below is covered by vectors in `vectors/` and by TypeScript tests.
 
-- `sha256Hex`, `hmacSha256Hex`, `timingSafeEqual` (implementasi sendiri, diverifikasi terhadap FIPS 180-4, RFC 4231, dan `node:crypto`).
-- `createCsrfToken`, `verifyCsrfToken` (HMAC-SHA256 atas nonce dan konteks sesi), `generateCsrfToken` (TypeScript, `crypto.getRandomValues`).
-- `securityHeaders`: tujuh header bawaan yang dapat diganti, dihapus, atau ditambah; penolakan CR, LF, dan karakter kontrol.
-- `buildCsp`: serialisasi direktif dengan penolakan `;`, `,`, dan spasi di sumber.
-- `escapeHtml`: lima karakter `& < > " '`.
-- `safeRedirect`: jalur lokal atau URL http(s) ke host yang diizinkan; selain itu fallback.
-- `checkPassword`: panjang, komposisi opsional, karakter berulang, daftar kata sandi umum, dan kemiripan dengan data pengguna.
-- `fixedWindow`, `tokenBucket`, `simulateRateLimit`: aritmetika bilangan bulat, status eksplisit.
+- `sha256Hex`, `hmacSha256Hex`, `timingSafeEqual` (own implementation, verified against FIPS 180-4, RFC 4231 and `node:crypto`).
+- `createCsrfToken`, `verifyCsrfToken` (HMAC-SHA256 over a nonce and the session context), `generateCsrfToken` (TypeScript, `crypto.getRandomValues`).
+- `securityHeaders`: seven default headers that can be replaced, removed or extended; CR, LF and control characters are rejected.
+- `buildCsp`: directive serialization that rejects `;`, `,` and whitespace in sources.
+- `escapeHtml`: the five characters `& < > " '`.
+- `safeRedirect`: a local path or an http(s) URL to an allowed host; anything else falls back.
+- `checkPassword`: length, optional composition rules, repeated characters, a list of common passwords, and similarity to user data.
+- `fixedWindow`, `tokenBucket`, `simulateRateLimit`: integer arithmetic with explicit state.
 
-## Instalasi
+## Installation
 
-Belum terbit di registry. Setelah rilis pertama:
+Not published to any registry yet. After the first release:
 
 ```bash
 npm install lomboksecurity      # TypeScript / JavaScript
@@ -49,9 +49,9 @@ cargo add lomboksecurity        # Rust
 ```ts
 import { generateCsrfToken, verifyCsrfToken, safeRedirect, securityHeaders, checkPassword } from "lomboksecurity";
 
-const secret = process.env.CSRF_SECRET!;                 // paling sedikit 16 byte
-const token = generateCsrfToken(secret, sessionId);      // taruh di formulir
-verifyCsrfToken(secret, submittedToken, sessionId);      // true atau false
+const secret = process.env.CSRF_SECRET!;                 // at least 16 bytes
+const token = generateCsrfToken(secret, sessionId);      // put it in the form
+verifyCsrfToken(secret, submittedToken, sessionId);      // true or false
 
 safeRedirect("//evil.example.net/x");                     // "/"
 safeRedirect("https://app.example.com/home", { allowedHosts: ["app.example.com"] });
@@ -70,38 +70,38 @@ assert!(verify_csrf_token(secret, &token, Some("session-1")).unwrap());
 assert_eq!(escape_html("<b>\"x\"</b>"), "&lt;b&gt;&quot;x&quot;&lt;/b&gt;");
 ```
 
-## Status port
+## Port status
 
-| Port | Status | Bukti |
+| Port | Status | Evidence |
 |---|---|---|
-| Rust (`no_std + alloc`) | YA, lulus vector | `rust/tests/vectors.rs` menjalankan seluruh vector; uji known-answer SHA-1, HMAC-SHA1, PBKDF2; build `thumbv7em-none-eabi` |
-| TypeScript | YA, lulus vector | `typescript/test/vectors.test.ts` menjalankan seluruh vector; kripto dibandingkan dengan `node:crypto` pada masukan acak; fuzz `safeRedirect` |
-| Python, Go, PHP, Java, Kotlin, C#, C/C++, Swift, Perl | BELUM | Tidak ada kode; direncanakan setelah kontrak stabil (lihat `docs/development_ide_LombokSecurity_v0.1.0.md`) |
+| Rust (`no_std + alloc`) | YES, passes the vectors | `rust/tests/vectors.rs` runs every vector; known-answer tests for SHA-1, HMAC-SHA1 and PBKDF2; `thumbv7em-none-eabi` build |
+| TypeScript | YES, passes the vectors | `typescript/test/vectors.test.ts` runs every vector; the cryptography is compared with `node:crypto` on random inputs; `safeRedirect` fuzzing |
+| Python, Go, PHP, Java, Kotlin, C#, C/C++, Swift, Perl | NOT YET | No code; planned once the contract is stable (see `docs/development_ide_LombokSecurity_v0.1.0.md`) |
 
-Vector: 341 kasus (181 golden berekspektasi tulis tangan atau dari standar, 160 regresi hasil pembangkit).
+Vectors: 341 cases (181 golden cases with hand-written or standard expectations, 160 generated regression cases).
 
-## Standar yang diimplementasikan
+## Standards implemented
 
-FIPS 180-4 (SHA-256), RFC 2104 dan RFC 4231 (HMAC-SHA256), RFC 9110 (sintaks nama header), CSP Level 3 (sintaks serialisasi), NIST SP 800-63B (panduan kata sandi), RFC 6585 (konvensi `Retry-After` untuk status 429). Lihat `docs/SPEC_LombokSecurity_v0.1.0.md`.
+FIPS 180-4 (SHA-256), RFC 2104 and RFC 4231 (HMAC-SHA256), RFC 9110 (header name syntax), CSP Level 3 (serialization syntax), NIST SP 800-63B (password guidance), RFC 6585 (the `Retry-After` convention for status 429). See `docs/SPEC_LombokSecurity_v0.1.0.md`.
 
-## Batasan yang diketahui
+## Known limitations
 
-- Bukan pustaka kriptografi umum: tidak ada enkripsi, tanda tangan asimetris, atau KDF modern (Argon2). Untuk itu pakai LombokEncryptDecrypt atau pustaka khusus.
-- Implementasi SHA-256 dan HMAC belum diaudit pihak ketiga dan belum diuji terhadap serangan side-channel selain perbandingan waktu konstan.
-- Port Rust tidak memiliki sumber keacakan; nonce CSRF dipasok pemanggil.
-- `safeRedirect` tidak menormalisasi IDN atau persen-encoding host; host dibandingkan apa adanya setelah huruf kecil ASCII.
-- Daftar kata sandi umum bawaan kecil (40 entri); tambahkan daftar sendiri lewat `extraBlocklist`.
-- Status rate limiter disimpan pemanggil; tidak ada penyimpanan bersama antar proses.
-- Hanya Rust dan TypeScript yang memiliki kode. Fuzz bersifat pseudo-fuzz, belum `cargo-fuzz`.
+- Not a general-purpose cryptography library: there is no encryption, no asymmetric signatures and no modern KDF (Argon2). Use LombokEncryptDecrypt or a dedicated library for those.
+- The SHA-256 and HMAC implementations have not been audited by a third party and have not been tested against side-channel attacks other than the constant-time comparison.
+- The Rust port has no source of randomness; the CSRF nonce is supplied by the caller.
+- `safeRedirect` does not normalize IDNs or percent-encoding in the host; the host is compared as is after ASCII lowercasing.
+- The built-in common-password list is small (40 entries); add your own list through `extraBlocklist`.
+- Rate limiter state is stored by the caller; there is no shared storage between processes.
+- Only Rust and TypeScript have code. Fuzzing is pseudo-fuzzing, not `cargo-fuzz`.
 
-## Ekosistem Lombok
+## Lombok Ecosystem
 
-LombokSecurity tidak bergantung pada library Lombok lain (L0). Library lain dapat memakainya secara opsional; daftar dependen ada di `docs/map_LombokSecurity_v0.1.0.md`.
+LombokSecurity has no required dependency on other Lombok libraries (L0). Other libraries may use it optionally; the dependents are listed in `docs/map_LombokSecurity_v0.1.0.md`.
 
 ## Contributing
 
-Lihat [CONTRIBUTING.md](CONTRIBUTING.md). Untuk melaporkan kerentanan lihat [SECURITY.md](SECURITY.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
-## Lisensi
+## License
 
-`Apache-2.0 OR MIT`. Lihat [LICENSE-APACHE](LICENSE-APACHE) dan [LICENSE-MIT](LICENSE-MIT).
+`Apache-2.0 OR MIT`. See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT).
