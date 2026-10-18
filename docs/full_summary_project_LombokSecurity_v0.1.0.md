@@ -1,43 +1,43 @@
 # Full Summary LombokSecurity v0.1.0
 
-## Apa ini
+## What it is
 
-Primitif keamanan web tanpa dependensi: hashing dan HMAC, token CSRF, header keamanan dan CSP, escape HTML, redirect aman, kebijakan kata sandi, dan rate limiting.
+Dependency-free web security primitives: hashing and HMAC, CSRF tokens, security headers and CSP, HTML escaping, safe redirects, a password policy, and rate limiting.
 
-## Mengapa dibuat
+## Why it exists
 
-Kerentanan web paling sering berasal dari detail kecil yang diimplementasikan ulang di setiap proyek dan setiap bahasa: perbandingan token yang tidak waktu-konstan, header yang dapat disisipi baris baru, redirect ke `//host` yang dianggap lokal, dan CSP yang disusun tanpa validasi. Kontrak bersama membuat detail itu sama dan teruji di semua port.
+Web vulnerabilities most often come from small details that are reimplemented in every project and every language: token comparison that is not constant-time, headers that can have a newline injected, a redirect to `//host` that is treated as local, and a CSP assembled without validation. A shared contract makes those details the same and tested in every port.
 
-## Fitur utama
+## Main features
 
-Lihat README (bagian Fitur). Semua fitur dicakup vector.
+See the README (Features section). All features are covered by vectors.
 
-## Status saat ini
+## Current status
 
-Kode lengkap untuk Rust dan TypeScript; lulus 341 kasus vector; belum terbit di registry; belum memenuhi aturan skor rilis (lihat `TECH_DEBT.md`).
+Complete code for Rust and TypeScript; passes 341 vector cases; not yet published to any registry; does not yet meet the release score rule (see `TECH_DEBT.md`).
 
-## Contoh pemakai
+## Example users
 
-Lihat README (skenario pemakaian).
+See the README (usage scenarios).
 
-## Batasan yang Diketahui
+## Known Limitations
 
-- Bukan pustaka kriptografi umum; tidak ada enkripsi atau hashing kata sandi.
-- Implementasi SHA-256 dan HMAC belum diaudit pihak ketiga.
-- Port Rust tidak memiliki sumber keacakan.
-- `safeRedirect` tidak menormalisasi IDN atau persen-encoding host.
-- Daftar kata sandi umum bawaan hanya 40 entri.
-- Hanya dua port (Rust, TypeScript); fuzz berupa pseudo-fuzz, belum `cargo-fuzz`; belum audit pihak ketiga; coverage belum diukur.
+- Not a general-purpose cryptography library; no encryption or password hashing.
+- The SHA-256 and HMAC implementations have not been audited by a third party.
+- The Rust port has no source of randomness.
+- `safeRedirect` does not normalize IDNs or percent-encoding in the host.
+- The built-in common-password list has only 40 entries.
+- Only two ports (Rust, TypeScript); fuzzing is pseudo-fuzzing, not `cargo-fuzz`; no third-party audit; coverage not measured yet.
 
-## Info lanjut
+## More information
 
-SPEC_, API_, `development_ide_`.
+`SPEC_`, `API_`, `development_ide_`.
 
-## Gap vs pembanding (U6)
+## Gap vs comparators (U6)
 
-Perbandingan bersifat kualitatif dan berdasarkan pengetahuan umum tentang kategori library; belum diverifikasi fitur demi fitur pada 2026-10-07.
+The comparison is qualitative and based on general knowledge of each category of library; it has not been verified feature by feature on 2026-10-07.
 
-| Pembanding (kategori) | Yang dimiliki pembanding dan belum dimiliki LombokSecurity | Yang ditawarkan LombokSecurity |
+| Comparator (category) | What the comparator has that LombokSecurity does not | What LombokSecurity offers |
 |---|---|---|
-| Middleware keamanan (helmet, csurf, express-rate-limit, Django security middleware) | Integrasi framework, penyimpanan status bersama, konfigurasi yang luas | Kontrak lintas bahasa dengan vector bersama; fungsi murni; inti `no_std + alloc`; tanpa dependensi |
-| Pustaka kripto (ring, RustCrypto, WebCrypto) | Algoritma luas, audit, optimasi perangkat keras | Hanya primitif yang dibutuhkan, tanpa dependensi, keluaran identik antar port |
+| Security middleware (helmet, csurf, express-rate-limit, Django security middleware) | Framework integration, shared state storage, wide configuration | A cross-language contract with shared vectors; pure functions; a `no_std + alloc` core; no dependencies |
+| Cryptography libraries (ring, RustCrypto, WebCrypto) | A wide range of algorithms, audits, hardware optimization | Only the primitives that are needed, no dependencies, identical output across ports |
